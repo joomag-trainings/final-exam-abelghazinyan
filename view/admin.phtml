@@ -1,0 +1,37 @@
+<head>
+    <?php require "../config/bootstrap_head.php"?>
+</head>
+<body>
+    <div class="container-fluid" align="center">
+        <div class="panel panel-primary">
+            <div class="panel-heading clearfix">
+                <h2 class="pull-left">Administration Panel</h2>
+                <div class="pull-right">
+                    <button class="btn btn-success btn-md" onclick="location.href = '/survey_generator/public/index.php/wizard';event.stopPropagation();">
+                        <h4 class="center">Create a Survey</h4>
+                    </button>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    <a href="#" class="list-group-item clearfix">
+                        <h4 class="list-group-item-heading pull-left">First List Group Item Heading</h4>
+                        <span class="pull-right">
+                             <div class="btn-group">
+                                 <span class="btn btn-md btn-default" onclick="location.href = ''; event.stopPropagation();">
+                                     <span class="glyphicon glyphicon-stats"></span>
+                                 </span>
+                                 <span class="btn btn-md btn-danger" onclick="location.href = ''; event.stopPropagation();">
+                                     <span class="glyphicon glyphicon-trash"></span>
+                                 </span>
+                             </div>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <?php require "../config/bootstrap_body.php"?>
+</body>
+</html>
