@@ -7,7 +7,7 @@
     use Slim\Http\Request;
     use Slim\Http\Response;
 
-    class WizardController extends AbstractController
+    class SurveyFormController extends AbstractController
     {
         private $name;
         private $subject;
@@ -51,14 +51,13 @@
                     $this->expirationDateError = true;
                     $this->isSubmit = true;
                 }
-
             }
 
             $viewRenderer = $this->container->get('view');
 
             $response = $viewRenderer->render(
                 $response,
-                "/wizard.phtml",
+                "/survey_form.phtml",
                 [
                     'name' => $this->name,
                     'subject' => $this->subject,
@@ -77,7 +76,7 @@
 
         private function verifyForm(Request $request)
         {
-            if ($request->getParam('form') == 'wizard') {
+            if ($request->getParam('form') == 'form') {
                 $this->isSubmit = true;
                 $this->name = Cleaner::clean($request->getParam('name'));
 

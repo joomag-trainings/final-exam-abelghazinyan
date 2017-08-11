@@ -7,25 +7,14 @@
             <div class="panel-heading clearfix">
                 <h2 class="pull-left">Administration Panel</h2>
                 <div class="pull-right">
-                    <button class="btn btn-success btn-md" onclick="location.href = '/survey_generator/public/index.php/wizard';event.stopPropagation();">
+                    <button class="btn btn-success btn-md" onclick="location.href = '/survey_generator/public/index.php/survey_form';event.stopPropagation();">
                         <h4 class="center">Create a Survey</h4>
                     </button>
                 </div>
             </div>
             <div class="panel-body">
                 <div class="list-group">
-                    <a href="#" class="list-group-item clearfix">
-                        <h4 class="list-group-item-heading pull-left">First List Group Item Heading</h4>
-                        <span class="pull-right">
-                             <div class="btn-group">
-                                 <span class="btn btn-md btn-default" onclick="location.href = ''; event.stopPropagation();">
-                                     <span class="glyphicon glyphicon-stats"></span>
-                                 </span>
-                                 <span class="btn btn-md btn-danger" onclick="location.href = ''; event.stopPropagation();">
-                                     <span class="glyphicon glyphicon-trash"></span>
-                                 </span>
-                             </div>
-                        </span>
+                        <?php \Service\SurveyGroupListDrawer::drawGroupList(1, true) ?>
                     </a>
                 </div>
             </div>
@@ -35,3 +24,22 @@
     <?php require "../config/bootstrap_body.php"?>
 </body>
 </html>
+<script>
+    //Ajax pagination
+    var container = document.getElementsByClassName('list-group');
+    var page = 1;
+    window.onscroll = function(ev) {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    container[0].innerHTML += this.responseText;
+                }
+            };
+            page++;
+            xhttp.open("GET", "/survey_generator/public/index.php/admin=" + page);
+            xhttp.send();
+
+        }
+    };
+</script>

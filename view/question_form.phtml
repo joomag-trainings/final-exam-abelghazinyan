@@ -1,0 +1,110 @@
+<head>
+    <?php require "../config/bootstrap_head.php"?>
+</head>
+<body>
+<div class="container-fluid" align="center">
+    <div class="panel panel-primary">
+        <div class="panel-heading clearfix">
+            <div class="pull-left">
+                <button class="btn btn-default btn-md" onclick="location.href = '/survey_generator/public/index.php/page?id=<?= $id ?>';event.stopPropagation();">
+                    <h4>Back</h4>
+                </button>
+            </div>
+            <h2 class="text-center">Question Form</h2>
+        </div>
+        <div class="panel-body">
+            <form class="form-horizontal" method="post">
+                <input type="hidden" name="form" value="form">
+                <div class="form-group <?php if ($subjectError && $isSubmit) { echo "has-error"; } elseif ($isSubmit) { echo "has-success"; } ?> has-feedback"">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <textarea class="form-control" rows="2" id="subject" style="resize: none" placeholder="Enter question subject" name="subject"><?= $subject ?></textarea>
+                        <?php
+                            if ($subjectError && $isSubmit) { echo "<span class='glyphicon glyphicon-remove form-control-feedback'></span>";}
+                            elseif ($isSubmit) { echo "<span class='glyphicon glyphicon-ok form-control-feedback'></span>"; }
+                        ?>
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    <label class="radio-inline"><input type="radio" name="type" value="multi" <?php if ($type == 'multi') { echo "checked";} else if ($type == '') { echo "checked"; } ?>>Multi-select</label>
+                    <label class="radio-inline"><input type="radio" name="type" value="single" <?php if ($type == 'single') { echo "checked";} ?>>Single-select</label>
+                    <label class="radio-inline"><input type="checkbox" name="mandatory" value="1" <?php if ($mandatory == 1) { echo "checked";} ?> > is Mandatory</label>
+                </div>
+                <div class="form-group <?php if ($optionsErrors[0] && $isSubmit) { echo "has-error"; } elseif ($isSubmit) { echo "has-success"; } ?> has-feedback" id="option1" >
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <input class="form-control" placeholder="Option 1" name="option-1" value="<?= $options["option-1"] ?>">
+                        <?php
+                            if ($optionsErrors[0] && $isSubmit) { echo "<span class='glyphicon glyphicon-remove form-control-feedback'></span>";}
+                            elseif ($isSubmit) { echo "<span class='glyphicon glyphicon-ok form-control-feedback'></span>"; }
+                        ?>
+                    </div>
+                </div>
+                <div class="form-group <?php if ($optionsErrors[1] && $isSubmit) { echo "has-error"; } elseif ($isSubmit) { echo "has-success"; } ?> has-feedback" id="option2">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <input class="form-control" placeholder="Option 2" name="option-2" value="<?= $options["option-2"] ?>">
+                        <?php
+                            if ($optionsErrors[1] && $isSubmit) { echo "<span class='glyphicon glyphicon-remove form-control-feedback'></span>";}
+                            elseif ($isSubmit) { echo "<span class='glyphicon glyphicon-ok form-control-feedback'></span>"; }
+                        ?>
+                    </div>
+                </div>
+                <?= $optionBoxes?>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-8">
+                <button type="submit" class="btn btn-success">Finish</button>
+            </div>
+        </div>
+        </form>
+    </div>
+    <div class="form-group">
+        <div class="btn-group">
+            <button class="btn btn-default btn-sm" id="plus">
+                <strong>+</strong>
+            </button>
+            <button class="btn btn-default btn-sm" id="minus">
+                <strong>-</strong>
+            </button>
+        </div>
+    </div>
+</div>
+
+<?php require "../config/bootstrap_body.php"?>
+<script>
+    var plus = document.getElementById('plus');
+    var minus = document.getElementById('minus');
+
+    var options = document.querySelectorAll('*[id^="option"]');
+    var last = options[options.length - 1];
+    var optionCount = last.getAttribute('id').split('option')[1];
+    console.log(optionCount);
+
+    function insertAfter(newNode, referenceNode) {
+        referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+    }
+
+    plus.addEventListener('click', function () {
+        var lastOption = document.getElementById("option" + optionCount);
+        optionCount++;
+        var newOption = lastOption.cloneNode(true);
+        newOption.setAttribute('id', "option" + optionCount);
+        newOption.setAttribute('class', "form-group has-feedback");
+        newOption.children[0].children[0].setAttribute('placeholder', "Option " + optionCount);
+        newOption.children[0].children[0].value = '';
+        newOption.children[0].children[0].setAttribute('name', "option-" + optionCount);
+        if (newOption.children[0].children[1] != null) {
+            newOption.children[0].children[1].parentNode.removeChild(newOption.children[0].children[1]);
+        }
+        insertAfter(newOption,lastOption);
+    });
+
+    minus.addEventListener('click', function () {
+        if (optionCount > 2) {
+            var lastOption = document.getElementById("option" + optionCount);
+            lastOption.parentNode.removeChild(lastOption);
+            optionCount--;
+        }
+    });
+
+</script>
+</body>
+
+</html>

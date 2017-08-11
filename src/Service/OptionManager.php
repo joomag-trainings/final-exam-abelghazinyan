@@ -3,9 +3,9 @@
     namespace Service;
 
 
-    use Model\SurveyModel;
+    use Model\OptionModel;
 
-    class SurveyManager
+    class OptionManager
     {
         private static $instance;
         private $connection;
@@ -27,9 +27,9 @@
             return self::$instance;
         }
 
-        public function addSurvey($name,$subject,$startDate,$expirationDate)
+        public function addOption($name,$subject,$startDate,$expirationDate)
         {
-
+/*
             $state = self::SURVEY_STATE_IN_PROGRESS;
             $statement = $this->connection->prepare(
                 "INSERT INTO surveys (id, name, subject, start_date, expiration_date, state) VALUES (NULL, :name, :subject, :startDate, :expirationDate, :state)"
@@ -55,10 +55,12 @@
                     throw new \Exception('UPDATE ERROR');
                 }
             }
+*/
         }
 
-        public function  getSurveys($page)
+        public function  getOption($page)
         {
+            /*
             $start = ($page - 1) * self::SURVEY_LOAD_SIZE;
             $limit = self::SURVEY_LOAD_SIZE;
 
@@ -83,10 +85,12 @@
             } else {
                 return null;
             }
+            */
         }
 
-        public function getSurveyById($id)
+        public function getOptionById($id)
         {
+            /*
             $statement=$this->connection->prepare("SELECT * FROM surveys WHERE id='{$id}'");
             $statement->execute();
             $res = $statement->fetch(\PDO::FETCH_ASSOC);
@@ -104,5 +108,6 @@
             } else {
                 return null;
             }
+            */
         }
     }
