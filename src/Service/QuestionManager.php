@@ -9,9 +9,7 @@
     {
         private static $instance;
         private $connection;
-        const SURVEY_STATE_IN_PROGRESS = 0;
-        const SURVEY_STATE_CREATED = 1;
-        const SURVEY_LOAD_SIZE = 12;
+        const QUESTION_LOAD_SIZE = 12;
 
         private function __construct()
         {
@@ -27,87 +25,70 @@
             return self::$instance;
         }
 
-        public function addQuestion($name,$subject,$startDate,$expirationDate)
+        public function addQuestion($page_id,$subject,$type,$mandatory)
         {
-/*
-            $state = self::SURVEY_STATE_IN_PROGRESS;
+
             $statement = $this->connection->prepare(
-                "INSERT INTO surveys (id, name, subject, start_date, expiration_date, state) VALUES (NULL, :name, :subject, :startDate, :expirationDate, :state)"
+                "INSERT INTO questions (id, page_id, subject, type, mandatory) VALUES (NULL, :page_id, :subject, :type, :mandatory)"
             );
 
-            $statement->bindParam('name',$name);
+            $statement->bindParam('page_id',$page_id);
             $statement->bindParam('subject',$subject);
-            $statement->bindParam('startDate',$startDate);
-            $statement->bindParam('expirationDate', $expirationDate);
-            $statement->bindParam('state', $state);
+            $statement->bindParam('type',$type);
+            $statement->bindParam('mandatory', $mandatory);
 
             $res = $statement->execute();
             if ($res == false) {
                 throw new \Exception('INSERTION ERROR');
             } else {
-                $id = $this->connection->lastInsertId();
-                $hash = hash('crc32', $id , false);
-                $statement = $this->connection->prepare(
-                    "UPDATE surveys SET hash='{$hash}' WHERE id='{$id}'"
-                );
-                $res = $statement->execute();
-                if ($res == false) {
-                    throw new \Exception('UPDATE ERROR');
-                }
+                return $this->connection->lastInsertId();
             }
-*/
         }
 
         public function  getQuestion($page)
         {
-            /*
-            $start = ($page - 1) * self::SURVEY_LOAD_SIZE;
-            $limit = self::SURVEY_LOAD_SIZE;
+            $start = ($page - 1) * self::QUESTION_LOAD_SIZE;
+            $limit = self::QUESTION_LOAD_SIZE;
 
-            $statement=$this->connection->prepare("SELECT * FROM surveys LIMIT {$limit} OFFSET {$start}");
+            $statement=$this->connection->prepare("SELECT * FROM questions LIMIT {$limit} OFFSET {$start}");
             $statement->execute();
             $res = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
             if ( isset($res) ) {
-                $surveys = null;
+                $questions = null;
                 foreach ($res as $row) {
-                    $survey = new SurveyModel();
-                    $survey->setId($row['id']);
-                    $survey->setName($row['name']);
-                    $survey->setSubject($row['subject']);
-                    $survey->setStartDate($row['start_date']);
-                    $survey->setExpirationDate($row['expiration_date']);
-                    $survey->setState($row['state']);
-                    $survey->setHash($row['hash']);
-                    $surveys[] = $survey;
+                    $question = new QuestionModel();
+                    $question->setId($row['id']);
+                    $question->setPageId($row['page_id']);
+                    $question->setSubject($row['subject']);
+                    $question->setType($row['type']);
+                    $question->setMandatory($row['mandatory']);
+                    $question->setPosition($row['position']);
+                    $questions[] = $question;
                 }
-                return $surveys;
+                return $questions;
             } else {
                 return null;
             }
-            */
         }
 
         public function getQuestionById($id)
         {
-            /*
-            $statement=$this->connection->prepare("SELECT * FROM surveys WHERE id='{$id}'");
+            $statement=$this->connection->prepare("SELECT * FROM questions WHERE id='{$id}'");
             $statement->execute();
             $res = $statement->fetch(\PDO::FETCH_ASSOC);
 
             if ( isset($res) ) {
-                $survey = new SurveyModel();
-                $survey->setId($res['id']);
-                $survey->setName($res['name']);
-                $survey->setSubject($res['subject']);
-                $survey->setStartDate($res['start_date']);
-                $survey->setExpirationDate($res['expiration_date']);
-                $survey->setState($res['state']);
-                $survey->setHash($res['hash']);
-                return $survey;
+                $question = new QuestionModel();
+                $question->setId($res['id']);
+                $question->setPageId($res['page_id']);
+                $question->setSubject($res['subject']);
+                $question->setType($res['type']);
+                $question->setMandatory($res['mandatory']);
+                $question->setPosition($res['position']);
+                return $question;
             } else {
                 return null;
             }
-            */
         }
     }

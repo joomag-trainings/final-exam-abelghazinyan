@@ -9,9 +9,7 @@
     {
         private static $instance;
         private $connection;
-        const SURVEY_STATE_IN_PROGRESS = 0;
-        const SURVEY_STATE_CREATED = 1;
-        const SURVEY_LOAD_SIZE = 12;
+        const OPTION_LOAD_SIZE = 12;
 
         private function __construct()
         {
@@ -27,87 +25,62 @@
             return self::$instance;
         }
 
-        public function addOption($name,$subject,$startDate,$expirationDate)
+        public function addOption($question_id,$text)
         {
-/*
-            $state = self::SURVEY_STATE_IN_PROGRESS;
+
             $statement = $this->connection->prepare(
-                "INSERT INTO surveys (id, name, subject, start_date, expiration_date, state) VALUES (NULL, :name, :subject, :startDate, :expirationDate, :state)"
+                "INSERT INTO options (id, question_id, text, count) VALUES (NULL, :question_id, :text, 0)"
             );
 
-            $statement->bindParam('name',$name);
-            $statement->bindParam('subject',$subject);
-            $statement->bindParam('startDate',$startDate);
-            $statement->bindParam('expirationDate', $expirationDate);
-            $statement->bindParam('state', $state);
+            $statement->bindParam('question_id',$question_id);
+            $statement->bindParam('text',$text);
 
             $res = $statement->execute();
             if ($res == false) {
                 throw new \Exception('INSERTION ERROR');
-            } else {
-                $id = $this->connection->lastInsertId();
-                $hash = hash('crc32', $id , false);
-                $statement = $this->connection->prepare(
-                    "UPDATE surveys SET hash='{$hash}' WHERE id='{$id}'"
-                );
-                $res = $statement->execute();
-                if ($res == false) {
-                    throw new \Exception('UPDATE ERROR');
-                }
             }
-*/
         }
 
         public function  getOption($page)
         {
-            /*
-            $start = ($page - 1) * self::SURVEY_LOAD_SIZE;
-            $limit = self::SURVEY_LOAD_SIZE;
+            $start = ($page - 1) * self::OPTION_LOAD_SIZE;
+            $limit = self::OPTION_LOAD_SIZE;
 
-            $statement=$this->connection->prepare("SELECT * FROM surveys LIMIT {$limit} OFFSET {$start}");
+            $statement=$this->connection->prepare("SELECT * FROM options LIMIT {$limit} OFFSET {$start}");
             $statement->execute();
             $res = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
             if ( isset($res) ) {
-                $surveys = null;
+                $options = null;
                 foreach ($res as $row) {
-                    $survey = new SurveyModel();
-                    $survey->setId($row['id']);
-                    $survey->setName($row['name']);
-                    $survey->setSubject($row['subject']);
-                    $survey->setStartDate($row['start_date']);
-                    $survey->setExpirationDate($row['expiration_date']);
-                    $survey->setState($row['state']);
-                    $survey->setHash($row['hash']);
-                    $surveys[] = $survey;
+                    $option = new OptionModel();
+                    $option->setId($row['id']);
+                    $option->setQuestionId($row['question_id']);
+                    $option->setText($row['text']);
+                    $option->setCount($row['count']);
+                    $options[] = $option;
                 }
-                return $surveys;
+                return $options;
             } else {
                 return null;
             }
-            */
         }
 
         public function getOptionById($id)
         {
-            /*
-            $statement=$this->connection->prepare("SELECT * FROM surveys WHERE id='{$id}'");
+            $statement=$this->connection->prepare("SELECT * FROM options WHERE id='{$id}'");
             $statement->execute();
             $res = $statement->fetch(\PDO::FETCH_ASSOC);
 
             if ( isset($res) ) {
-                $survey = new SurveyModel();
-                $survey->setId($res['id']);
-                $survey->setName($res['name']);
-                $survey->setSubject($res['subject']);
-                $survey->setStartDate($res['start_date']);
-                $survey->setExpirationDate($res['expiration_date']);
-                $survey->setState($res['state']);
-                $survey->setHash($res['hash']);
-                return $survey;
+                $option = new OptionModel();
+                $option->setId($res['id']);
+                $option->setQuestionId($res['question_id']);
+                $option->setText($res['text']);
+                $option->setCount($res['count']);
+                return $option;
             } else {
                 return null;
             }
-            */
         }
     }

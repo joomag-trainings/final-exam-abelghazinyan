@@ -4,6 +4,8 @@
 
     use Helper\Cleaner;
     use Service\PageManager;
+    use Service\QuestionManager;
+    use Service\OptionManager;
     use Slim\Http\Request;
     use Slim\Http\Response;
 
@@ -39,6 +41,10 @@
 
             if ($this->verifyForm($request)) {
                 try {
+                    $questionId = QuestionManager::getInstance()->addQuestion($id,$this->subject,$this->type,$this->mandatory);
+                    foreach ($this->options as $option) {
+                        OptionManager::getInstance()->addOption($questionId, $option);
+                    }
                     header("Location:/survey_generator/public/index.php/page?id={$id}");
                     exit;
                 } catch (\Exception $exception) {
@@ -131,7 +137,7 @@
                     }
                 }
 
-                if ($this->subjectError != '' || $this->optionsErrors == null) {
+                if ($this->subjectError != '' || !isset($this->optionsErrors)) {
                     return false;
                 } else {
                     return true;
