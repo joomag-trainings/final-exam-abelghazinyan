@@ -41,12 +41,12 @@
             }
         }
 
-        public function  getOption($page)
+        public function  getOptions($id, $page)
         {
             $start = ($page - 1) * self::OPTION_LOAD_SIZE;
             $limit = self::OPTION_LOAD_SIZE;
 
-            $statement=$this->connection->prepare("SELECT * FROM options LIMIT {$limit} OFFSET {$start}");
+            $statement=$this->connection->prepare("SELECT * FROM options WHERE question_id='{$id}' LIMIT {$limit} OFFSET {$start}");
             $statement->execute();
             $res = $statement->fetchAll(\PDO::FETCH_ASSOC);
 

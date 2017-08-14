@@ -22,11 +22,11 @@
                             self::drawNotStartedSurvey($survey);
                         }
 
-                        if (($survey->getStartDate() < $today) && ($survey->getExpirationDate() > $today )) {
+                        if (($survey->getStartDate() <= $today) && ($survey->getExpirationDate() >= $today )) {
                             self::drawStartedSurvey($survey);
                         }
 
-                        if (($survey->getStartDate() < $today) && ($survey->getExpirationDate() < $today )) {
+                        if (($survey->getStartDate() <= $today) && ($survey->getExpirationDate() < $today )) {
                             self::drawExpiredSurvey($survey);
                         }
                     }
@@ -41,38 +41,38 @@
             echo "<a href='/survey_generator/public/index.php/pages?id={$survey->getId()}' class='list-group-item list-group-item-warning clearfix'>
                         <h4 class='list-group-item-heading pull-left'>{$survey->getName()}</h4>
                         <span class='pull-right'>
-                             <span class='btn btn-md btn-danger' onclick=\"location.href = ''; event.stopPropagation();\">
-                                 <span class='glyphicon glyphicon-trash'></span>
-                             </span>
+                             <form method='post' class='pull-right form-control-static' action='/survey_generator/public/index.php/survey_delete?id={$survey->getId()}'>
+                                <button type='submit' class=\"btn btn-md btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></button>
+                             </form>  
                         </span>
                     </a>";
         }
 
         private static function drawNotStartedSurvey(SurveyModel $survey)
         {
-            echo "<a href='#' class='list-group-item list-group-item-info clearfix'>
+            echo "<a href='/survey_generator/public/index.php/pages?id={$survey->getId()}' class='list-group-item list-group-item-info clearfix'>
                         <h4 class='list-group-item-heading pull-left'>{$survey->getName()}</h4>
                         <span class='pull-right'>
-                             <span class='btn btn-md btn-danger' onclick=\"location.href = ''; event.stopPropagation();\">
-                                 <span class='glyphicon glyphicon-trash'></span>
-                             </span>
+                             <form method='post' class='pull-right form-control-static' action='/survey_generator/public/index.php/survey_delete?id={$survey->getId()}'>
+                                <button type='submit' class=\"btn btn-md btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></button>
+                             </form>  
                         </span>
                     </a>";
         }
 
         private static function drawStartedSurvey(SurveyModel $survey)
         {
-            echo "<a href='#' class='list-group-item list-group-item-success clearfix'>
+            echo "<a href='/survey_generator/public/index.php/pages?id={$survey->getId()}' class='list-group-item list-group-item-success clearfix'>
                         <h4 class='list-group-item-heading pull-left'>{$survey->getName()}</h4>
-                        <span class='pull-right'>
-                             <div class=\"btn-group\">
-                                 <span class=\"btn btn-md btn-default\" onclick=\"location.href = ''; event.stopPropagation();\">
-                                     <span class=\"glyphicon glyphicon-stats\"></span>
-                                 </span>
-                                 <span class=\"btn btn-md btn-danger\" onclick=\"location.href = ''; event.stopPropagation();\">
-                                     <span class=\"glyphicon glyphicon-trash\"></span>
-                                 </span>
-                             </div>
+                        <span class='pull-right'>       
+                             <form method='post' class='pull-right form-control-static' action='/survey_generator/public/index.php/survey_delete?id={$survey->getId()}'>
+                                <div class=\"btn-group\">
+                                    <span class=\"btn btn-md btn-default\" onclick=\"location.href = ''; event.stopPropagation();\">
+                                        <span class=\"glyphicon glyphicon-stats\"></span>
+                                    </span>    
+                                    <button type='submit' class=\"btn btn-md btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></button>
+                                </div>
+                             </form>                            
                         </span>
                     </a>";
         }
@@ -82,14 +82,14 @@
             echo "<a href='#' class='list-group-item list-group-item-danger clearfix'>
                         <h4 class='list-group-item-heading pull-left'>{$survey->getName()}</h4>
                         <span class='pull-right'>
-                             <div class=\"btn-group\">
-                                 <span class=\"btn btn-md btn-default\" onclick=\"location.href = ''; event.stopPropagation();\">
-                                     <span class=\"glyphicon glyphicon-stats\"></span>
-                                 </span>
-                                 <span class=\"btn btn-md btn-danger\" onclick=\"location.href = ''; event.stopPropagation();\">
-                                     <span class=\"glyphicon glyphicon-trash\"></span>
-                                 </span>
-                             </div>
+                             <form method='post' class='pull-right form-control-static' action='/survey_generator/public/index.php/survey_delete?id={$survey->getId()}'>
+                                <div class=\"btn-group\">
+                                    <span class=\"btn btn-md btn-default\" onclick=\"location . href = ''; event . stopPropagation();\">
+                                        <span class=\"glyphicon glyphicon-stats\"></span>
+                                    </span>    
+                                    <button type='submit' class=\"btn btn-md btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></button>
+                                </div>
+                             </form>  
                         </span>
                     </a>";
         }

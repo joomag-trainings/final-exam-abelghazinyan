@@ -105,4 +105,36 @@
                 return null;
             }
         }
+
+        public function setSurveyState($id, $state)
+        {
+            $statement = $this->connection->prepare("
+                          UPDATE surveys SET state='{$state}' WHERE id='{$id}'
+            ");
+
+            $res = $statement->execute();
+
+            if (empty($res)) {
+                throw new \Exception("Update Error");
+            }
+        }
+
+        public function deleteSurvey($id)
+        {
+            $statement = $this->connection->prepare("SELECT * FROM surveys where id= '{$id}'");
+            $statement->execute();
+            $res = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+            if (empty($res)) {
+                throw new \Exception("Invalid question id");
+            }
+
+            $statement=$this->connection->prepare("DELETE FROM surveys where id='{$id}'");
+            $res = $statement->execute();
+
+            if ($res == false) {
+                throw new \Exception("Deleting gone wrong");
+            }
+
+        }
     }

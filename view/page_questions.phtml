@@ -2,19 +2,17 @@
     <?php require "../config/bootstrap_head.php"?>
 </head>
 <body>
-<div class="container-fluid" align="center">
+<div class="container-fluid">
     <div class="panel panel-primary">
         <div class="panel-heading clearfix">
-            <h2 class="pull-left"><?= $name ?></h2>
+            <button class="btn btn-primary btn-md pull-left" onclick="location.href = '/survey_generator/public/index.php/page_save?id=<?= $id ?>';event.stopPropagation();">
+                <h4>Back</h4>
+            </button>
+            <h2 class="pull-left">&nbsp;&nbsp;<?= $name ?></h2>
             <div class="pull-right">
-                <div class="btn-group">
-                    <button class="btn btn-info btn-md" onclick="location.href = '#';event.stopPropagation();">
-                        <h4 class="center">Save</h4>
-                    </button>
-                    <button class="btn btn-success btn-md" onclick="location.href = '/survey_generator/public/index.php/question_form?id=<?= $id ?>';event.stopPropagation();">
-                        <h4 class="center">Add Question</h4>
-                    </button>
-                </div>
+                <button class="btn btn-success btn-md" onclick="location.href = '/survey_generator/public/index.php/question_form?id=<?= $id ?>';event.stopPropagation();">
+                    <h4 class="center">Add Question</h4>
+                </button>
             </div>
         </div>
         <div class="panel-body">
@@ -22,7 +20,7 @@
                 <h3> <?= $subject ?> </h3>
             </div>
             <div class="list-group">
-
+                <?php \Service\QuestionGroupListDrawer::drawGroupList($id, 1, true)?>
             </div>
         </div>
     </div>

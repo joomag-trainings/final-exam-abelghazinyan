@@ -46,12 +46,12 @@
             }
         }
 
-        public function  getPages($page)
+        public function  getPages($id, $page)
         {
             $start = ($page - 1) * self::PAGE_LOAD_SIZE;
             $limit = self::PAGE_LOAD_SIZE;
 
-            $statement=$this->connection->prepare("SELECT * FROM pages LIMIT {$limit} OFFSET {$start}");
+            $statement=$this->connection->prepare("SELECT * FROM pages WHERE survey_id='{$id}' LIMIT {$limit} OFFSET {$start}");
             $statement->execute();
             $res = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -89,5 +89,61 @@
             } else {
                 return null;
             }
+        }
+
+        public function getPageSurveyId($id)
+        {
+            $statement=$this->connection->prepare("SELECT survey_id FROM pages WHERE id='{$id}'");
+            $statement->execute();
+            $res = $statement->fetch(\PDO::FETCH_ASSOC);
+
+            if ( isset($res) ) {
+                return $res['survey_id'];
+            } else {
+                return null;
+            }
+        }
+
+        public function setPageState($id, $state)
+        {
+            $statement = $this->connection->prepare("
+                          UPDATE pages SET state='{$state}' WHERE id='{$id}'
+            ");
+
+            $res = $statement->execute();
+
+            if (empty($res)) {
+                throw new \Exception("Update Error");
+            }
+        }
+
+        public function getPagesQuantity($surveyId)
+        {
+            $statement=$this->connection->prepare("SELECT COUNT(*) FROM pages WHERE survey_id='{$surveyId}'");
+            $statement->execute();
+            $quantity = $statement->fetch(\PDO::FETCH_ASSOC);
+
+            $quantity = $quantity['COUNT(*)'];
+
+            return $quantity;
+        }
+
+        public function deletePage($id)
+        {
+            $statement = $this->connection->prepare("SELECT * FROM pages where id= '{$id}'");
+            $statement->execute();
+            $res = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+            if (empty($res)) {
+                throw new \Exception("Invalid question id");
+            }
+
+            $statement=$this->connection->prepare("DELETE FROM pages where id='{$id}'");
+            $res = $statement->execute();
+
+            if ($res == false) {
+                throw new \Exception("Deleting gone wrong");
+            }
+
         }
     }
