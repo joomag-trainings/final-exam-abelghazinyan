@@ -8,9 +8,9 @@
 
     class QuestionGroupListDrawer
     {
-        public static function drawGroupList($id, $pg, $info)
+        public static function drawGroupList($id, $info)
         {
-            $questions = QuestionManager::getInstance()->getQuestions($id, $pg);
+            $questions = QuestionManager::getInstance()->getQuestions($id);
             if ( isset($questions) ) {
                 $position = 1;
                 foreach ($questions as $question) {
@@ -28,12 +28,12 @@
 
             $optionQuantity = QuestionManager::getInstance()->getQuestionsQuantity($pageId);
 
-            echo  "<div class=\"panel panel-default\" id='{$question->getId()}'>
-                    <div class=\"panel-heading clearfix\">
+            echo  "<div class=\"panel\" id='{$question->getId()}'>
+                   <div class=\"panel-heading clearfix\">
                        <h4 class=\"pull-left\"> <strong>";
 
             if ($question->getMandatory() == 1) {
-                echo "<span class=\"text-danger\">*</span>";
+                echo "<span class=\"text-danger glyphicon glyphicon-star-empty\"></span>";
             }
 
             echo "{$position}) </strong>{$question->getSubject()}</h4>
@@ -46,29 +46,29 @@
                                 <div class=\"btn-group btn-group-vertical\">";
 
             if ($position == 1 && $optionQuantity != 1) {
-                echo "<button class=\"btn btn-xs btn-default\" disabled>
-                        <span class=\"glyphicon glyphicon-triangle-top\"></span>
+                echo "<button class=\"btn btn-xs\" disabled>
+                        <span style=\"color:black;\" class=\"glyphicon glyphicon-triangle-top\"></span>
                       </button>";
-                echo "<button type='submit' class=\"btn btn-xs btn-default\" name='dir' value='down'>
-                        <span class=\"glyphicon glyphicon-triangle-bottom\"></span>
+                echo "<button type='submit' class=\"btn btn-xs\" name='dir' value='down'>
+                        <span style=\"color:black;\" class=\"glyphicon glyphicon-triangle-bottom\"></span>
                       </button>";
             }
 
             if ($position > 1 && $position < $optionQuantity && $optionQuantity != 1) {
-                echo "<button type='submit' class=\"btn btn-xs btn-default\" name='dir' value='up'>
-                         <span class=\"glyphicon glyphicon-triangle-top\"></span>
+                echo "<button type='submit' class=\"btn btn-xs\" name='dir' value='up'>
+                         <span style=\"color:black;\" class=\"glyphicon glyphicon-triangle-top\"></span>
                       </button>";
-                echo "<button type='submit' class=\"btn btn-xs btn-default\" name='dir' value='down'>
-                        <span class=\"glyphicon glyphicon-triangle-bottom\"></span>
+                echo "<button type='submit' class=\"btn btn-xs\" name='dir' value='down'>
+                        <span style=\"color:black;\" class=\"glyphicon glyphicon-triangle-bottom\"></span>
                       </button>";
             }
 
             if ($position == $optionQuantity && $optionQuantity != 1) {
-                echo "<button type='submit' class=\"btn btn-xs btn-default\" name='dir' value='up'>
-                         <span class=\"glyphicon glyphicon-triangle-top\"></span>
+                echo "<button type='submit' class=\"btn btn-xs\" name='dir' value='up'>
+                         <span style=\"color:black;\" class=\"glyphicon glyphicon-triangle-top\"></span>
                       </button>";
-                echo "<button class=\"btn btn-xs btn-default\" disabled>
-                        <span class=\"glyphicon glyphicon-triangle-bottom\"></span>
+                echo "<button class=\"btn btn-xs\" disabled>
+                        <span style=\"color:black;\" class=\"glyphicon glyphicon-triangle-bottom\"></span>
                       </button>";
             }
 
@@ -77,7 +77,7 @@
 
             $pos = 1;
             foreach ($options as $option) {
-                echo  "<li class=\"list-group-item\"><strong>{$position}.{$pos})</strong> {$option->getText()}</li>";
+                echo  "<li class=\"list-group-item\"><strong>{$pos})</strong> {$option->getText()}</li>";
                 $pos ++;
             }
                            

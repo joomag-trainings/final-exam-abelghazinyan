@@ -57,7 +57,7 @@
 
             $response = $viewRenderer->render(
                 $response,
-                "/survey_form.phtml",
+                "/forms/survey_form.phtml",
                 [
                     'name' => $this->name,
                     'subject' => $this->subject,

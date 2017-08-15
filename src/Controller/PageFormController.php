@@ -47,7 +47,7 @@
 
             $response = $viewRenderer->render(
                 $response,
-                "/page_form.phtml",
+                "/forms/page_form.phtml",
                 [
                     'id' => $id,
                     'name' => $this->name,

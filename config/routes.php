@@ -13,6 +13,7 @@
     $app->post('/page_form', \Controller\PageFormController::class . ':showPage')->setName("page_form");
 
     $app->get('/page', \Controller\PagesController::class . ':showPage')->setName("page");
+    $app->get('/stats', \Controller\PagesController::class . ':showStats')->setName("page");
     $app->get('/page_save', \Controller\PagesController::class . ':savePage')->setName("page");
     $app->post('/page_delete', \Controller\PagesController::class . ':deletePage')->setName("page");
 
@@ -21,3 +22,10 @@
 
     $app->post('/question_delete', \Controller\PagesController::class . ':deleteQuestion')->setName("questions");
     $app->post('/question_arrange', \Controller\PagesController::class . ':arrangeQuestion')->setName("questions");
+
+    $app->get('/', \Controller\FrameworkController::class . ':showPage')->setName("framework");
+    $app->get('/{page}', \Controller\FrameworkController::class . ':getPage')->setName("framework");
+
+    $app->get('/survey/{hash}&{page}', \Controller\SurveyController::class . ':showPage')->setName("survey");
+    $app->post('/survey/{hash}&{page}', \Controller\SurveyController::class . ':showPage')->setName("survey");
+    $app->get('/survey/{hash}', \Controller\SurveyController::class . ':show')->setName("survey");

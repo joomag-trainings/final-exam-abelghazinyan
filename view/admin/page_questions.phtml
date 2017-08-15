@@ -1,5 +1,5 @@
 <head>
-    <?php require "../config/bootstrap_head.php"?>
+    <?php require "../config/bootstrap_head.php" ?>
 </head>
 <body>
 <div class="container-fluid">
@@ -16,16 +16,15 @@
             </div>
         </div>
         <div class="panel-body">
-            <div class="alert alert-info">
-                <h3> <?= $subject ?> </h3>
-            </div>
+            <pre><?= $subject ?>
+            </pre>
             <div class="list-group">
-                <?php \Service\QuestionGroupListDrawer::drawGroupList($id, 1, true)?>
+                <?php \Service\QuestionGroupListDrawer::drawGroupList($id,  true)?>
             </div>
         </div>
     </div>
 </div>
 
-<?php require "../config/bootstrap_body.php"?>
+<?php require "../config/bootstrap_body.php" ?>
 </body>
 </html>

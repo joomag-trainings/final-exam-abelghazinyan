@@ -46,29 +46,37 @@
             }
         }
 
-        public function  getPages($id, $page)
+        public function  getPages($survey_id, $page)
         {
             $start = ($page - 1) * self::PAGE_LOAD_SIZE;
             $limit = self::PAGE_LOAD_SIZE;
 
-            $statement=$this->connection->prepare("SELECT * FROM pages WHERE survey_id='{$id}' LIMIT {$limit} OFFSET {$start}");
+            $statement=$this->connection->prepare("SELECT * FROM pages WHERE survey_id='{$survey_id}' LIMIT {$limit} OFFSET {$start}");
             $statement->execute();
             $res = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
-            if ( isset($res) ) {
+            if ( !is_null($res) ) {
                 $pages = null;
                 foreach ($res as $row) {
-                    $page = new PageModel();
-                    $page->setId($row['id']);
-                    $page->setSurveyId($row['survey_id']);
-                    $page->setName($row['name']);
-                    $page->setSubject($row['subject']);
-                    $page->setState($row['state']);
-                    $pages[] = $page;
+                    $pages[] = $this->setPage($row);
                 }
                 return $pages;
             } else {
                 return null;
+            }
+        }
+
+        public function  getPageByNumber($survey_id, $page)
+        {
+            $page--;
+            $statement=$this->connection->prepare("SELECT * FROM pages WHERE survey_id='{$survey_id}' LIMIT 1 OFFSET {$page}");
+            $statement->execute();
+            $res = $statement->fetch(\PDO::FETCH_ASSOC);
+
+            if ( !empty($res) ) {
+                return $this->setPage($res);
+            } else {
+                return false;
             }
         }
 
@@ -78,13 +86,8 @@
             $statement->execute();
             $res = $statement->fetch(\PDO::FETCH_ASSOC);
 
-            if ( isset($res) ) {
-                $page = new PageModel();
-                $page->setId($res['id']);
-                $page->setId($res['survey_id']);
-                $page->setName($res['name']);
-                $page->setSubject($res['subject']);
-                $page->setState($res['state']);
+            if ( !empty($res) ) {
+                $page = $this->setPage($res);
                 return $page;
             } else {
                 return null;
@@ -97,7 +100,7 @@
             $statement->execute();
             $res = $statement->fetch(\PDO::FETCH_ASSOC);
 
-            if ( isset($res) ) {
+            if ( !empty($res) ) {
                 return $res['survey_id'];
             } else {
                 return null;
@@ -145,5 +148,16 @@
                 throw new \Exception("Deleting gone wrong");
             }
 
+        }
+
+        private function setPage($row)
+        {
+            $page = new PageModel();
+            $page->setId($row['id']);
+            $page->setSurveyId($row['survey_id']);
+            $page->setName($row['name']);
+            $page->setSubject($row['subject']);
+            $page->setState($row['state']);
+            return $page;
         }
     }

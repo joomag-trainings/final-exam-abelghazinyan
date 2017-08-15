@@ -69,15 +69,27 @@
             if ( isset($res) ) {
                 $surveys = null;
                 foreach ($res as $row) {
-                    $survey = new SurveyModel();
-                    $survey->setId($row['id']);
-                    $survey->setName($row['name']);
-                    $survey->setSubject($row['subject']);
-                    $survey->setStartDate($row['start_date']);
-                    $survey->setExpirationDate($row['expiration_date']);
-                    $survey->setState($row['state']);
-                    $survey->setHash($row['hash']);
-                    $surveys[] = $survey;
+                    $surveys[] = $this->setSurvey($row);
+                }
+                return $surveys;
+            } else {
+                return null;
+            }
+        }
+
+        public function  getActiveSurveys($page)
+        {
+            $start = ($page - 1) * self::SURVEY_LOAD_SIZE;
+            $limit = self::SURVEY_LOAD_SIZE;
+
+            $statement=$this->connection->prepare("SELECT * FROM surveys WHERE state = 1 AND start_date <= now() AND expiration_date >= now() LIMIT {$limit} OFFSET {$start}");
+            $statement->execute();
+            $res = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+            if ( isset($res) ) {
+                $surveys = null;
+                foreach ($res as $row) {
+                    $surveys[] = $this->setSurvey($row);
                 }
                 return $surveys;
             } else {
@@ -91,16 +103,8 @@
             $statement->execute();
             $res = $statement->fetch(\PDO::FETCH_ASSOC);
 
-            if ( isset($res) ) {
-                $survey = new SurveyModel();
-                $survey->setId($res['id']);
-                $survey->setName($res['name']);
-                $survey->setSubject($res['subject']);
-                $survey->setStartDate($res['start_date']);
-                $survey->setExpirationDate($res['expiration_date']);
-                $survey->setState($res['state']);
-                $survey->setHash($res['hash']);
-                return $survey;
+            if ( $res != null ) {
+               return $this->setSurvey($res);
             } else {
                 return null;
             }
@@ -136,5 +140,31 @@
                 throw new \Exception("Deleting gone wrong");
             }
 
+        }
+
+        public function getSurveyIdByHash($hash)
+        {
+            $statement=$this->connection->prepare("SELECT id FROM surveys WHERE hash='{$hash}'");
+            $statement->execute();
+            $res = $statement->fetch(\PDO::FETCH_ASSOC);
+
+            if ( $res != null) {
+                return $res['id'];
+            } else {
+                return null;
+            }
+        }
+
+        private function setSurvey($row)
+        {
+            $survey = new SurveyModel();
+            $survey->setId($row['id']);
+            $survey->setName($row['name']);
+            $survey->setSubject($row['subject']);
+            $survey->setStartDate($row['start_date']);
+            $survey->setExpirationDate($row['expiration_date']);
+            $survey->setState($row['state']);
+            $survey->setHash($row['hash']);
+            return $survey;
         }
     }

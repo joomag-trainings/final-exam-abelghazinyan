@@ -36,6 +36,25 @@
             }
         }
 
+        public static function drawFrameworkList($page, $info)
+        {
+            $surveys = SurveyManager::getInstance()->getActiveSurveys($page);
+            if ( isset($surveys) ) {
+                foreach ($surveys as $survey) {
+                    self::drawActiveSurvey($survey);
+                }
+            } elseif ($info) {
+                echo "<h1>Currently there are no surveys</h1>";
+            }
+        }
+
+        private static function drawActiveSurvey(SurveyModel $survey)
+        {
+            echo "<a href='/survey_generator/public/index.php/survey/{$survey->getHash()}' class='list-group-item list-group-item-success clearfix'>
+                        <h4 class='list-group-item-heading pull-left'>{$survey->getName()}</h4>
+                    </a>";
+        }
+
         private static function drawInProgressSurvey(SurveyModel $survey)
         {
             echo "<a href='/survey_generator/public/index.php/pages?id={$survey->getId()}' class='list-group-item list-group-item-warning clearfix'>
@@ -67,7 +86,7 @@
                         <span class='pull-right'>       
                              <form method='post' class='pull-right form-control-static' action='/survey_generator/public/index.php/survey_delete?id={$survey->getId()}'>
                                 <div class=\"btn-group\">
-                                    <span class=\"btn btn-md btn-default\" onclick=\"location.href = ''; event.stopPropagation();\">
+                                    <span class=\"btn btn-md btn-primary\" onclick=\"location.href = '/survey_generator/public/index.php/stats?id={$survey->getId()}&page=1'; event.stopPropagation();\">
                                         <span class=\"glyphicon glyphicon-stats\"></span>
                                     </span>    
                                     <button type='submit' class=\"btn btn-md btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></button>
@@ -84,9 +103,9 @@
                         <span class='pull-right'>
                              <form method='post' class='pull-right form-control-static' action='/survey_generator/public/index.php/survey_delete?id={$survey->getId()}'>
                                 <div class=\"btn-group\">
-                                    <span class=\"btn btn-md btn-default\" onclick=\"location . href = ''; event . stopPropagation();\">
+                                    <button class=\"btn btn-md btn-primary\" onclick=\"location . href = '/survey_generator/public/index.php/stats?id={$survey->getId()}&page=1'; event . stopPropagation();\">
                                         <span class=\"glyphicon glyphicon-stats\"></span>
-                                    </span>    
+                                    </button>    
                                     <button type='submit' class=\"btn btn-md btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></button>
                                 </div>
                              </form>  

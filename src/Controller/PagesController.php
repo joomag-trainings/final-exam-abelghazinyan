@@ -42,7 +42,7 @@
 
             $response = $viewRenderer->render(
                 $response,
-                "/pages.phtml",
+                "admin/pages.phtml",
                 [
                     'id' => $id,
                     'name' => $this->name,
@@ -70,7 +70,7 @@
 
             $response = $viewRenderer->render(
                 $response,
-                "/page_questions.phtml",
+                "admin/page_questions.phtml",
                 [
                     'id' => $id,
                     'name' => $this->name,
@@ -141,6 +141,30 @@
 
             header("Location:/survey_generator/public/index.php/pages?id={$survey_id}");
             exit;
+        }
+
+        public function showStats(Request $request, Response $response, $args)
+        {
+            $id = $request->getParam('id');
+            $pageNumber = $request->getParam('page');
+
+            $page = PageManager::getInstance()->getPageByNumber($id, $pageNumber);
+            $count = PageManager::getInstance()->getPagesQuantity($id);
+            $viewRenderer = $this->container->get('view');
+
+            $response = $viewRenderer->render(
+                $response,
+                "admin/stats.phtml",
+                [
+                    'id' => $id,
+                    'name' => $page->getName(),
+                    'subject' => $page->getSubject(),
+                    'number' => $pageNumber,
+                    'count' => $count
+                ]
+            );
+
+            return $response;
         }
 
     }

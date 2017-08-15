@@ -17,7 +17,7 @@
 
             $response = $viewRenderer->render(
                 $response,
-                "/admin.phtml",
+                "admin/admin.phtml",
                 [
 
                 ]

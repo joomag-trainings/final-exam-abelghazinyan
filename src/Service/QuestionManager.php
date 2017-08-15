@@ -57,12 +57,10 @@
             }
         }
 
-        public function  getQuestions($id,$page)
+        public function  getQuestions($id)
         {
-            $start = ($page - 1) * self::QUESTION_LOAD_SIZE;
-            $limit = self::QUESTION_LOAD_SIZE;
 
-            $statement=$this->connection->prepare("SELECT * FROM questions WHERE page_id='{$id}' ORDER BY position ASC LIMIT {$limit} OFFSET {$start}");
+            $statement=$this->connection->prepare("SELECT * FROM questions WHERE page_id='{$id}' ORDER BY position ASC");
             $statement->execute();
             $res = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -136,12 +134,14 @@
 
         public function arrangeQuestion($id, $dir)
         {
-            $position = $this->getQuestionById($id)->getPosition();
+            $question = $this->getQuestionById($id);
+            $position = $question->getPosition();
+            $pageId = $question->getPageId();
 
             if ($dir == 'up') {
                 $statement = $this->connection->prepare("
                                                     SELECT * FROM questions 
-                                                    WHERE position < {$position}
+                                                    WHERE position < {$position} AND page_id = {$pageId}
                                                     GROUP BY id 
                                                     ORDER BY id DESC 
                                                     LIMIT 1");
@@ -155,7 +155,7 @@
             } else {
                 $statement = $this->connection->prepare("
                                                     SELECT * FROM questions 
-                                                    WHERE position > {$position}
+                                                    WHERE position > {$position} AND page_id = {$pageId}
                                                     GROUP BY id 
                                                     ORDER BY id ASC 
                                                     LIMIT 1");

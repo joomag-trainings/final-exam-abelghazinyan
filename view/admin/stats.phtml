@@ -1,0 +1,26 @@
+<head>
+    <?php require "../config/bootstrap_head.php" ?>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="panel">
+        <div class="panel-heading clearfix">
+            <button class="btn btn-primary btn-md pull-left" onclick="location.href = '/survey_generator/public/index.php/admin';event.stopPropagation();">
+                <h4>Back</h4>
+            </button>
+            <h2 class="pull-left">&nbsp;&nbsp;<?= $name ?></h2>
+            <h2 class="pull-right">&nbsp;&nbsp;<?= $number ." / " . $count ?></h2>
+        </div>
+        <div class="panel-body">
+            <pre><?= $subject ?>
+            </pre>
+            <div class="list-group">
+                <?php \Service\QuestionGroupListDrawer::drawGroupList($id,  true)?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php require "../config/bootstrap_body.php" ?>
+</body>
+</html>
