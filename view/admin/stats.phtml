@@ -8,14 +8,15 @@
             <button class="btn btn-primary btn-md pull-left" onclick="location.href = '/survey_generator/public/index.php/admin';event.stopPropagation();">
                 <h4>Back</h4>
             </button>
-            <h2 class="pull-left">&nbsp;&nbsp;<?= $name ?></h2>
-            <h2 class="pull-right">&nbsp;&nbsp;<?= $number ." / " . $count ?></h2>
+            <h2 class="pull-left">&nbsp;&nbsp;<?= $page->getName() ?></h2>
+            <h2 class="pull-right">&nbsp;&nbsp;<?= $page->getPageNumber() ." / " . $page->getPageCount() ?></h2>
         </div>
         <div class="panel-body">
-            <pre><?= $subject ?>
+            <pre><?= $page->getSubject() ?>
             </pre>
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
             <div class="list-group">
-                <?php \Service\QuestionGroupListDrawer::drawGroupList($id,  true)?>
+                <?php \Service\SurveyDrawer::drawPageStats($page) ?>
             </div>
         </div>
     </div>

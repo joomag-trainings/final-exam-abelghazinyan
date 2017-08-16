@@ -28,7 +28,7 @@
 
         public function getPage(Request $request, Response $response, $args)
         {
-            $page = $args['page'];
+            $page = $args['pageNumber'];
             SurveyGroupListDrawer::drawGroupList($page,false);
 
             return $response;

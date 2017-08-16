@@ -7,7 +7,7 @@
 
     class SurveyDrawer
     {
-        public static function draw(FrameworkPageModel $page, $options, $errors)
+        public static function drawSurveyPage(FrameworkPageModel $page, $options, $errors)
         {
 
             echo
@@ -26,8 +26,6 @@
                 echo "<input type='hidden' name='action' value='finish'>";
             }
             echo "<div class=\"list-group\">";
-
-            $next = $page->getPageNumber()+1;
 
             $position = 1;
             foreach ($page->getQuestions() as $question) {
@@ -90,5 +88,109 @@
 
             echo "</form></div>";
             echo "</div>";
+        }
+
+        public static function drawPageStats(FrameworkPageModel $page)
+        {
+            $next = $page->getPageNumber()+1;
+            $prev = $page->getPageNumber()-1;
+
+            $position = 1;
+            foreach ($page->getQuestions() as $question) {
+                echo  "<div class=\"panel\">
+                            <div class=\"panel-heading clearfix\">
+                            <h4 class=\"pull-left\"> <strong>";
+
+                if ($question->getMandatory() == 1) {
+                    echo "<span class=\"text-danger glyphicon glyphicon-star-empty\"></span>";
+
+                }
+                echo "{$position}) </strong>{$question->getSubject()}</h4>";
+
+                echo "</div><div class=\"panel-body\">";
+                $array = null;
+
+                foreach ($question->getOptions() as $option) {
+                    $array[$option->getText()] = $option->getCount();
+                }
+                self::drawChart($array, $question->getId());
+
+                echo "</div></div>";
+                $position++;
+            }
+
+            if ($page->getNextPage()) {
+                echo "<a type='submit' class='btn btn-primary btn-lg text-center pull-right' href='/survey_generator/public/index.php/stats?id={$page->getSurvey()->getId()}&pageNumber={$next}'>Next</a>";
+            }
+            if ($page->getPrevPage()) {
+                echo "<a type='submit' class='btn btn-primary btn-lg text-center pull-left' href='/survey_generator/public/index.php/stats?id={$page->getSurvey()->getId()}&pageNumber={$prev}'>Previous</a>";
+            }
+
+            echo "</form></div>";
+            echo "</div>";
+        }
+
+        private static function drawChart($array, $id)
+        {
+            $string = '';
+            $count = 0;
+            $total= 0;
+            foreach ($array as $key => $value) {
+                $count++;
+                $total += $value;
+                $string .= "['{$key}',{$value}],";
+            }
+
+            $height = $count * 30;
+            $height += 100;
+            echo "
+            <script type=\"text/javascript\">
+
+                google.charts.load('current', {'packages':['corechart']});
+
+                google.charts.setOnLoadCallback(drawChart);
+
+                function drawChart() {
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'word');
+                    data.addColumn('number', 'Select');
+                    data.addRows([{$string}]);
+                    var options = {'title':\"Total number of Answers: {$total}\",
+                               'width':\"100%\",
+                               'height':\"{$height}\",
+                               'backgroundColor': { fill:'transparent' },
+                               titleTextStyle: {
+                                    color: 'white'
+                                },
+                                hAxis: {
+                                    textStyle: {
+                                        color: 'white'
+                                    },
+                                    titleTextStyle: {
+                                        color: 'white'
+                                    }
+                                },
+                                vAxis: {
+                                    textStyle: {
+                                        color: 'white'
+                                    },
+                                    titleTextStyle: {
+                                        color: 'white'
+                                    }
+                                },
+                                legend: {
+                                    textStyle: {
+                                        color: 'white'
+                                    }
+                                }
+                               };
+          
+                    var chart = new google.visualization.BarChart(document.getElementById('{$id}'));
+                    chart.draw(data, options);
+                }
+            </script>";
+
+            echo "<div id='{$id}' ></div>";
+
         }
     }

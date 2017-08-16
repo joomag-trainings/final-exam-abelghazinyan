@@ -5,9 +5,11 @@
 <div class="container-fluid">
     <div class="panel panel-primary">
         <div class="panel-heading clearfix">
-            <button class="btn btn-primary btn-md pull-left" onclick="location.href = '/survey_generator/public/index.php/page_save?id=<?= $id ?>';event.stopPropagation();">
-                <h4>Back</h4>
-            </button>
+            <form method="post" class="form-control-static" action="/survey_generator/public/index.php/page_save?id=<?= $id ?>">
+                <button type="submit" class="btn btn-primary btn-md pull-left">
+                    <h4>Back</h4>
+                </button>
+            </form>
             <h2 class="pull-left">&nbsp;&nbsp;<?= $name ?></h2>
             <div class="pull-right">
                 <button class="btn btn-success btn-md" onclick="location.href = '/survey_generator/public/index.php/question_form?id=<?= $id ?>';event.stopPropagation();">

@@ -32,17 +32,24 @@
         {
             session_start();
             $hash = $args['hash'];
-            $page = $args['page'];
+            $page = $args['pageNumber'];
+
+            if (!is_numeric($page)) {
+                throw new \Slim\Exception\NotFoundException($request, $response);
+            }
 
             $prev = $page-1;
             if ($page < 1 || ($page != 1 && empty($_SESSION)) || ($page != 1 && empty($_SESSION["page-" . $prev])) || ($page >= 1 && !empty($_SESSION["page-" . $page]))) {
-                return $response->withStatus(404);
+                throw new \Slim\Exception\NotFoundException($request, $response);
             }
 
             $action = $request->getParam('action');
 
             $id = SurveyManager::getInstance()->getSurveyIdByHash($hash);
 
+            if (is_null($id)) {
+                throw new \Slim\Exception\NotFoundException($request, $response);
+            }
             if (!is_null($action)) {
                 if ($action == 'next') {
                     if ($this->verifyInputs($request, $id, $page)) {
@@ -54,9 +61,6 @@
                 } else {
                     if ($this->verifyInputs($request, $id, $page)) {
                         $_SESSION["page-" . $page] = $this->options;
-//                        echo "<pre>";
-//                        echo var_dump($_SESSION);
-//                        echo "</pre>";
                         try {
                             FrameworkManager::getInstance()->saveResults($_SESSION);
                         } catch (\Exception $exception) {
@@ -69,11 +73,7 @@
                 }
             }
 
-            if (isset($id)) {
-                $this->showSurveyPage($id,$page,$response);
-            } else {
-                return $response->withStatus(404);
-            }
+            $this->showSurveyPage($id,$page,$response);
         }
 
         public function showSurveyPage($id, $page, $response)

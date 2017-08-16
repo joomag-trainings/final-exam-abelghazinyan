@@ -4,6 +4,7 @@
 
     use Helper\Cleaner;
     use Service\PageManager;
+    use Service\SurveyManager;
     use Slim\Http\Request;
     use Slim\Http\Response;
 
@@ -28,6 +29,23 @@
         public function showPage(Request $request, Response $response, $args)
         {
             $id = $request->getParam('id');
+
+            if (!is_numeric($id)) {
+                throw new \Slim\Exception\NotFoundException($request, $response);
+            }
+
+            $survey = SurveyManager::getInstance()->getSurveyById($id);
+
+            if (is_null($survey)) {
+                throw new \Slim\Exception\NotFoundException($request, $response);
+            } else {
+                $today = new \DateTime('now');
+                $today = $today->format('Y-m-d');
+
+                if (($survey->getStartDate() <= $today) && ($survey->getExpirationDate() < $today )) {
+                    throw new \Slim\Exception\NotFoundException($request, $response);
+                }
+            }
 
             if ($this->verifyForm($request)) {
                 try {

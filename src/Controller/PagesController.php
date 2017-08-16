@@ -2,6 +2,7 @@
 
     namespace Controller;
 
+    use Service\FrameworkManager;
     use Service\PageManager;
     use Service\QuestionManager;
     use Service\SurveyManager;
@@ -29,14 +30,28 @@
         {
             $id = $request->getParam('id');
 
+            if (!is_numeric($id)) {
+                throw new \Slim\Exception\NotFoundException($request, $response);
+            }
+
             $survey = SurveyManager::getInstance()->getSurveyById($id);
 
-            if (isset($survey)) {
-                $this->name = $survey->getName();
-                $this->subject = $survey->getSubject();
-                $this->startDate = $survey->getStartDate();
-                $this->expirationDate = $survey->getExpirationDate();
+            if (is_null($survey)) {
+                throw new \Slim\Exception\NotFoundException($request, $response);
+            } else {
+                $today = new \DateTime('now');
+                $today = $today->format('Y-m-d');
+
+                if (($survey->getStartDate() <= $today) && ($survey->getExpirationDate() < $today )) {
+                    throw new \Slim\Exception\NotFoundException($request, $response);
+                }
             }
+
+            $this->name = $survey->getName();
+            $this->subject = $survey->getSubject();
+            $this->startDate = $survey->getStartDate();
+            $this->expirationDate = $survey->getExpirationDate();
+
 
             $viewRenderer = $this->container->get('view');
 
@@ -59,12 +74,31 @@
         {
             $id = $request->getParam('id');
 
+            if (!is_numeric($id)) {
+                throw new \Slim\Exception\NotFoundException($request, $response);
+            }
+
             $page = PageManager::getInstance()->getPageById($id);
 
-            if (isset($page)) {
-                $this->name = $page->getName();
-                $this->subject = $page->getSubject();
+            if (is_null($page)) {
+                throw new \Slim\Exception\NotFoundException($request, $response);
             }
+
+            $survey = SurveyManager::getInstance()->getSurveyById($page->getSurveyId());
+
+            if (is_null($survey)) {
+                throw new \Slim\Exception\NotFoundException($request, $response);
+            } else {
+                $today = new \DateTime('now');
+                $today = $today->format('Y-m-d');
+
+                if (($survey->getStartDate() <= $today) && ($survey->getExpirationDate() < $today )) {
+                    throw new \Slim\Exception\NotFoundException($request, $response);
+                }
+            }
+
+            $this->name = $page->getName();
+            $this->subject = $page->getSubject();
 
             $viewRenderer = $this->container->get('view');
 
@@ -146,10 +180,44 @@
         public function showStats(Request $request, Response $response, $args)
         {
             $id = $request->getParam('id');
-            $pageNumber = $request->getParam('page');
 
-            $page = PageManager::getInstance()->getPageByNumber($id, $pageNumber);
-            $count = PageManager::getInstance()->getPagesQuantity($id);
+            if (!is_numeric($id)) {
+                throw new \Slim\Exception\NotFoundException($request, $response);
+            }
+
+            $pageNumber = $request->getParam('pageNumber');
+
+            if (!is_numeric($pageNumber)) {
+                throw new \Slim\Exception\NotFoundException($request, $response);
+            }
+
+            if ($pageNumber < 1) {
+                throw new \Slim\Exception\NotFoundException($request, $response);
+            }
+
+            $survey = SurveyManager::getInstance()->getSurveyById($id);
+
+            if (is_null($survey)) {
+                throw new \Slim\Exception\NotFoundException($request, $response);
+            } else {
+                if ($survey->getState() == '0') {
+                    throw new \Slim\Exception\NotFoundException($request, $response);
+                } else {
+                    $today = new \DateTime('now');
+                    $today = $today->format('Y-m-d');
+
+                    if (($survey->getStartDate() > $today)) {
+                        throw new \Slim\Exception\NotFoundException($request, $response);
+                    }
+                }
+            }
+
+            if ($pageNumber > PageManager::getInstance()->getPagesQuantity($id)) {
+                throw new \Slim\Exception\NotFoundException($request, $response);
+            }
+
+            $page = FrameworkManager::getInstance()->getFrameworkPage($id, $pageNumber);
+
             $viewRenderer = $this->container->get('view');
 
             $response = $viewRenderer->render(
@@ -157,10 +225,7 @@
                 "admin/stats.phtml",
                 [
                     'id' => $id,
-                    'name' => $page->getName(),
-                    'subject' => $page->getSubject(),
-                    'number' => $pageNumber,
-                    'count' => $count
+                    'page' => $page
                 ]
             );
 

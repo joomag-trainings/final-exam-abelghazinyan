@@ -11,6 +11,7 @@
         private $survey;
         private $pageNumber;
         private $nextPage;
+        private $prevPage;
         private $pageCount;
         /**
          * @var array
@@ -97,6 +98,20 @@
             $this->pageCount = $pageCount;
         }
 
+        /**
+         * @return mixed
+         */
+        public function getPrevPage()
+        {
+            return $this->prevPage;
+        }
 
+        /**
+         * @param mixed $prevPage
+         */
+        public function setPrevPage($prevPage)
+        {
+            $this->prevPage = $prevPage;
+        }
 
     }

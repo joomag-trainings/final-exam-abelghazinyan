@@ -44,6 +44,13 @@
                 $nextPage = true;
             }
 
+            $number--;
+            if ($number == 1) {
+                $prevPage = false;
+            } else {
+                $prevPage = true;
+            }
+
             $questions = QuestionManager::getInstance()->getQuestions($page->getId());
 
             $frameworkQuestions = null;
@@ -64,6 +71,7 @@
 
             $frameworkPageModel->setSurvey($survey);
             $frameworkPageModel->setNextPage($nextPage);
+            $frameworkPageModel->setPrevPage($prevPage);
             $frameworkPageModel->setPageNumber($pageNumber);
             $frameworkPageModel->setQuestions($frameworkQuestions);
             $frameworkPageModel->setName($page->getName());

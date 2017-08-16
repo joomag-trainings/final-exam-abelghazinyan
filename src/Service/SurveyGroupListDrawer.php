@@ -83,15 +83,17 @@
         {
             echo "<a href='/survey_generator/public/index.php/pages?id={$survey->getId()}' class='list-group-item list-group-item-success clearfix'>
                         <h4 class='list-group-item-heading pull-left'>{$survey->getName()}</h4>
-                        <span class='pull-right'>       
-                             <form method='post' class='pull-right form-control-static' action='/survey_generator/public/index.php/survey_delete?id={$survey->getId()}'>
-                                <div class=\"btn-group\">
-                                    <span class=\"btn btn-md btn-primary\" onclick=\"location.href = '/survey_generator/public/index.php/stats?id={$survey->getId()}&page=1'; event.stopPropagation();\">
-                                        <span class=\"glyphicon glyphicon-stats\"></span>
-                                    </span>    
+                        <span class='pull-right'>  
+                             <form method='post' class='pull-right form-control-static' action='/survey_generator/public/index.php/survey_delete?id={$survey->getId()}'> 
                                     <button type='submit' class=\"btn btn-md btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></button>
-                                </div>
-                             </form>                            
+                             </form> 
+                             <form method='get' class='pull-right form-control-static' action='/survey_generator/public/index.php/stats'>
+                                    <input type='hidden' name='id' value='{$survey->getId()}'>
+                                    <input type='hidden' name='page' value='1'>
+                                    <button class=\"btn btn-md btn-primary\">
+                                        <span class=\"glyphicon glyphicon-stats\"></span>
+                                    </button> 
+                             </form>                           
                         </span>
                     </a>";
         }
@@ -103,9 +105,9 @@
                         <span class='pull-right'>
                              <form method='post' class='pull-right form-control-static' action='/survey_generator/public/index.php/survey_delete?id={$survey->getId()}'>
                                 <div class=\"btn-group\">
-                                    <button class=\"btn btn-md btn-primary\" onclick=\"location . href = '/survey_generator/public/index.php/stats?id={$survey->getId()}&page=1'; event . stopPropagation();\">
+                                    <span class=\"btn btn-md btn-primary\" onclick=\"location.href = '/survey_generator/public/index.php/stats?id={$survey->getId()}&page=1'; event . stopPropagation();\">
                                         <span class=\"glyphicon glyphicon-stats\"></span>
-                                    </button>    
+                                    </span>    
                                     <button type='submit' class=\"btn btn-md btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></button>
                                 </div>
                              </form>  
