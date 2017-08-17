@@ -13,7 +13,7 @@
                 <li><a href="/survey_generator/public/index.php/">FRAMEWORK</a></li>
                 <li class="active"><a href="/survey_generator/public/index.php/admin">ADMINISTRATION PANEL</a></li>
             </ul>
-            <button class="btn btn-info navbar-btn pull-right" onclick="location.href = '/survey_generator/public/index.php/survey_form';event.stopPropagation();">
+            <button class="btn btn-info navbar-btn pull-right" data-toggle="modal" data-target="#form" ">
                 <span class="glyphicon glyphicon-plus"></span>
                 Create a Survey
             </button>
@@ -40,8 +40,10 @@
             </div>
         </div>
     </div>
-
     <?php require "../config/bootstrap_body.php" ?>
+
+    <?php require "../view/forms/survey_form.phtml" ?>
+
 </body>
 </html>
 <script>

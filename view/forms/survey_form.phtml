@@ -1,90 +1,125 @@
-<head>
-    <?php require "../config/bootstrap_head.php" ?>
-
-</head>
-<body>
-<div class="container-fluid" align="center">
-    <div class="panel panel-primary">
-        <div class="panel-heading clearfix">
-            <div class="pull-left">
-                <button class="btn btn-primary btn-md" onclick="location.href = '/survey_generator/public/index.php/admin';event.stopPropagation();">
-                    <h4>Back</h4>
-                </button>
+<div id="form" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <form class="form-horizontal" method="post" action="/survey_generator/public/index.php/admin">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></button>
+                <h3 class="modal-title text-primary text-center"><strong>CREATE A SURVEY</strong></h3>
             </div>
-            <h2 class="text-center">Survey Form</h2>
-        </div>
-        <div class="panel-body">
-                <form class="form-horizontal" method="post">
+            <div class="modal-body">
                     <input type="hidden" name="form" value="form">
-                    <div class="form-group <?php if ($nameError && $isSubmit) { echo "has-error"; } elseif ($isSubmit) { echo "has-success"; } ?> has-feedback" >
-                        <label class="control-label col-sm-3" for="name">Name:</label>
-                        <div class="col-sm-6">
-                            <input class="form-control" id="name" placeholder="Enter name" name="name" value="<?= $name ?>">
-                           <?php
-                               if ($nameError && $isSubmit) { echo "<span class='glyphicon glyphicon-remove form-control-feedback'></span>";}
-                               elseif ($isSubmit) { echo "<span class='glyphicon glyphicon-ok form-control-feedback'></span>"; }
-                               ?>
-                        </div>
-                    </div>
-                    <div class="form-group <?php if ($subjectError && $isSubmit) { echo "has-error"; } elseif ($isSubmit) { echo "has-success"; } ?> has-feedback"">
-                        <label class="control-label col-sm-3" for="subject">Subject:</label>
-                        <div class="col-sm-6">
-                            <textarea class="form-control" rows="5" id="subject" style="resize: none" placeholder="Enter subject (introduction text)" name="subject"><?= $subject ?></textarea>
+                    <div class="form-group
+                    <?php if ($nameError && $isSubmit) {
+                        echo "has-error";
+                    } elseif ($isSubmit) {
+                        echo "has-success";
+                    } ?>
+                    has-feedback">
+                        <label class="control-label col-sm-1" for="name"><strong>Name</strong></label>
+                        <div class="col-sm-11">
+                            <input class="form-control" id="name" placeholder="Enter name" name="name"
+                                   value="<?= $name  ?>">
                             <?php
-                                if ($subjectError && $isSubmit) { echo "<span class='glyphicon glyphicon-remove form-control-feedback'></span>";}
-                                elseif ($isSubmit) { echo "<span class='glyphicon glyphicon-ok form-control-feedback'></span>"; }
+                                if ($nameError && $isSubmit) {
+                                    echo "<span class='glyphicon glyphicon-remove form-control-feedback'></span>";
+                                } elseif ($isSubmit) {
+                                    echo "<span class='glyphicon glyphicon-ok form-control-feedback'></span>";
+                                }
                             ?>
                         </div>
                     </div>
-                    <div class="form-group <?php if ($startDateError && $isSubmit) { echo "has-error"; } elseif ($isSubmit) { echo "has-success"; } ?> has-feedback"">
-                        <label class="control-label col-sm-5 " for="start_date">
-                            Start Date:
-                        </label>
-                        <div class="col-sm-2">
+                    <div class="form-group
+                        <?php if ($subjectError && $isSubmit) {
+                            echo "has-error";
+                        } elseif ($isSubmit) {
+                            echo "has-success";
+                        } ?> has-feedback"
+                        ">
+                        <label class="control-label col-sm-1" for="subject"><strong>Subject</strong></label>
+                        <div class="col-sm-11">
+                                        <textarea class="form-control" rows="5" id="subject" style="resize: none"
+                                                  placeholder="Enter subject (introduction text)"
+                                                  name="subject"><?= $subject ?></textarea>
+                            <?php
+                                if ($subjectError && $isSubmit) {
+                                    echo "<span class='glyphicon glyphicon-remove form-control-feedback'></span>";
+                                } elseif ($isSubmit) {
+                                    echo "<span class='glyphicon glyphicon-ok form-control-feedback'></span>";
+                                }
+                            ?>
+                        </div>
+                    </div>
+                    <div class="form-group
+                    <?php if ($startDateError && $isSubmit) {
+                        echo "has-error";
+                    } elseif ($isSubmit) {
+                        echo "has-success";
+                    } ?> has-feedback"
+                    ">
+                    <label class="control-label col-sm-4 " for="start_date">
+                        <strong>Start Date</strong>
+                    </label>
+                        <div class="col-sm-4">
                             <div class="input-group">
-                                <input class="form-control" id="start_date" name="start_date" placeholder="YYYY-MM-DD" type="text" value="<?= $startDate ?>"/>
+                                <input class="form-control" id="start_date" name="start_date" placeholder="YYYY-MM-DD"
+                                       type="text" value="<?= $startDate ?>"/>
                             </div>
                             <?php
-                                if ($startDateError && $isSubmit) { echo "<span class='glyphicon glyphicon-remove form-control-feedback'></span>";}
-                                elseif ($isSubmit) { echo "<span class='glyphicon glyphicon-ok form-control-feedback'></span>"; }
+                                if ($startDateError && $isSubmit) {
+                                    echo "<span class='glyphicon glyphicon-remove form-control-feedback'></span>";
+                                } elseif ($isSubmit) {
+                                    echo "<span class='glyphicon glyphicon-ok form-control-feedback'></span>";
+                                }
                             ?>
                         </div>
                     </div>
-                    <div class="form-group <?php if ($expirationDateError && $isSubmit) { echo "has-error"; } elseif ($isSubmit) { echo "has-success"; } ?> has-feedback"">
-                        <label class="control-label col-sm-5 " for="expiration_date">
-                            Expiration Date:
-                        </label>
-                        <div class="col-sm-2">
-                            <div class="input-group">
-                                <input class="form-control" id="expiration_date" name="expiration_date" placeholder="YYYY-MM-DD" type="text"/ value="<?= $expirationDate ?>">
-                            </div>
-                            <?php
-                                if ($expirationDateError && $isSubmit) { echo "<span class='glyphicon glyphicon-remove form-control-feedback'></span>";}
-                                elseif ($isSubmit) { echo "<span class='glyphicon glyphicon-ok form-control-feedback'></span>"; }
-                            ?>
+                    <div class="form-group
+                    <?php if ($expirationDateError && $isSubmit) {
+                        echo "has-error";
+                    } elseif ($isSubmit) {
+                        echo "has-success";
+                    } ?> has-feedback"
+                    ">
+                    <label class="control-label col-sm-4 " for="expiration_date">
+                        <strong>Expiration Date</strong>
+                    </label>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <input class="form-control" id="expiration_date" name="expiration_date"
+                                   placeholder="YYYY-MM-DD" type="text"/ value="<?= $expirationDate ?>">
                         </div>
+                        <?php
+                            if ($expirationDateError && $isSubmit) {
+                                echo "<span class='glyphicon glyphicon-remove form-control-feedback'></span>";
+                            } elseif ($isSubmit) {
+                                echo "<span class='glyphicon glyphicon-ok form-control-feedback'></span>";
+                            }
+                        ?>
                     </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-8">
-                            <button type="submit" class="btn btn-success">Finish</button>
-                        </div>
-                    </div>
-                </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-default pull-right"><span class="text-primary">Finish</span></button>
             </div>
         </div>
+        </form>
     </div>
 </div>
 
-<?php require "../config/bootstrap_body.php" ?>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 
-</body>
 <script>
-    $(document).ready(function(){
-        var date_input=$('input[name="start_date"]'); //our date input has the name "date"
-        var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+    /**
+     *Start Date Input
+     */
+    $(document).ready(function () {
+        var date_input = $('input[name="start_date"]');
+        var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
         date_input.datepicker({
             format: 'yyyy-mm-dd',
             container: container,
@@ -92,9 +127,12 @@
             autoclose: true,
         })
     })
-    $(document).ready(function(){
-        var date_input=$('input[name="expiration_date"]'); //our date input has the name "date"
-        var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+    /**
+     *Expiration Date Input
+     */
+    $(document).ready(function () {
+        var date_input = $('input[name="expiration_date"]');
+        var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
         date_input.datepicker({
             format: 'yyyy-mm-dd',
             container: container,
@@ -102,5 +140,12 @@
             autoclose: true,
         })
     })
+
+    <?php
+        if ($nameError != '' || $subjectError != '' || $startDateError != '' || $expirationDateError != '') {
+            echo  "$('#form').modal('show')";
+        }
+    ?>
+
 </script>
-</html>
+

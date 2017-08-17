@@ -13,7 +13,7 @@
             <li><a href="/survey_generator/public/index.php/">FRAMEWORK</a></li>
             <li><a href="/survey_generator/public/index.php/admin">ADMINISTRATION PANEL</a></li>
         </ul>
-        <button class="btn btn-info navbar-btn pull-right" onclick="location.href = '/survey_generator/public/index.php/question_form?id=<?= $id ?>';event.stopPropagation();">
+        <button class="btn btn-info navbar-btn pull-right" data-toggle="modal" data-target="#form">
             <span class="glyphicon glyphicon-plus"></span>
             Add Question
         </button>
@@ -32,7 +32,7 @@
         </div>
         <hr>
         <div class="panel-body">
-            <blockquote><p><?= $subject ?></p>
+            <blockquote><p><?= $pageSubject ?></p>
             </blockquote>
             <div class="list-group">
                 <?php \Service\QuestionGroupListDrawer::drawGroupList($id,  true)?>
@@ -42,5 +42,7 @@
 </div>
 
 <?php require "../config/bootstrap_body.php" ?>
+<?php require "../view/forms/question_form.phtml" ?>
+
 </body>
 </html>

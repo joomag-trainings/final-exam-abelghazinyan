@@ -9,15 +9,15 @@
 
     class SurveyFormController extends AbstractController
     {
-        private $name;
-        private $subject;
-        private $startDate;
-        private $expirationDate;
-        private $nameError;
-        private $subjectError;
-        private $startDateError;
-        private $expirationDateError;
-        private $isSubmit;
+        public $name;
+        public $subject;
+        public $startDate;
+        public $expirationDate;
+        public $nameError;
+        public $subjectError;
+        public $startDateError;
+        public $expirationDateError;
+        public $isSubmit;
 
         public function __construct($container)
         {
@@ -52,24 +52,6 @@
                     $this->isSubmit = true;
                 }
             }
-
-            $viewRenderer = $this->container->get('view');
-
-            $response = $viewRenderer->render(
-                $response,
-                "/forms/survey_form.phtml",
-                [
-                    'name' => $this->name,
-                    'subject' => $this->subject,
-                    'startDate' => $this->startDate,
-                    'expirationDate' => $this->expirationDate,
-                    'nameError' => $this->nameError,
-                    'subjectError' => $this->subjectError,
-                    'startDateError' => $this->startDateError,
-                    'expirationDateError' => $this->expirationDateError,
-                    'isSubmit' => $this->isSubmit
-                ]
-            );
 
             return $response;
         }

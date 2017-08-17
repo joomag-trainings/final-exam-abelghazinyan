@@ -50,7 +50,7 @@
 
         private static function drawActiveSurvey(SurveyModel $survey)
         {
-            $link = "localhost/survey_generator/public/index.php/survey/{$survey->getHash()}";
+            $link = "45.55.80.53/survey_generator/public/index.php/survey/{$survey->getHash()}";
             echo "<div class='list-group-item clearfix'>
                         <button data-toggle=\"modal\" data-target=\"#M-{$survey->getId()}\" class=\"btn btn-xs pull-right\"><span class=\"glyphicon glyphicon-link\"></span> GET URL</button>
                         <a href='/survey_generator/public/index.php/survey/{$survey->getHash()}'><h3 class='list-group-item-heading text-capitalize'><i>{$survey->getName()}</i></h3></a>

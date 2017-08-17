@@ -8,18 +8,28 @@
     use Slim\Http\Response;
     use \Service\PageManager;
 
-    class AdminController extends AbstractController
+    class AdminController extends SurveyFormController
     {
 
         public function showPage(Request $request, Response $response, $args)
         {
+            parent::showPage($request,$response,$args);
+
             $viewRenderer = $this->container->get('view');
 
             $response = $viewRenderer->render(
                 $response,
                 "admin/admin.phtml",
                 [
-
+                    'name' => $this->name,
+                    'subject' => $this->subject,
+                    'startDate' => $this->startDate,
+                    'expirationDate' => $this->expirationDate,
+                    'nameError' => $this->nameError,
+                    'subjectError' => $this->subjectError,
+                    'startDateError' => $this->startDateError,
+                    'expirationDateError' => $this->expirationDateError,
+                    'isSubmit' => $this->isSubmit
                 ]
             );
 

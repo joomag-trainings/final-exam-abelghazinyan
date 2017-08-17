@@ -10,11 +10,11 @@
 
     class PageFormController extends AbstractController
     {
-        private $name;
-        private $subject;
-        private $nameError;
-        private $subjectError;
-        private $isSubmit;
+        public $name;
+        public $subject;
+        public $nameError;
+        public $subjectError;
+        public $isSubmit;
 
         public function __construct($container)
         {
@@ -60,22 +60,6 @@
                     $this->isSubmit = true;
                 }
             }
-
-            $viewRenderer = $this->container->get('view');
-
-            $response = $viewRenderer->render(
-                $response,
-                "/forms/page_form.phtml",
-                [
-                    'id' => $id,
-                    'name' => $this->name,
-                    'subject' => $this->subject,
-                    'nameError' => $this->nameError,
-                    'subjectError' => $this->subjectError,
-                    'isSubmit' => $this->isSubmit
-                ]
-            );
-
 
             return $response;
         }

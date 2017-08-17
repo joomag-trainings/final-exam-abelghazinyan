@@ -12,25 +12,25 @@
 
     class QuestionFormController extends AbstractController
     {
-        private $subject;
-        private $subjectError;
-        private $type;
-        private $mandatory;
-        private $isSubmit;
-        private $options;
-        private $optionsErrors;
-        private $optionBoxes;
+        public $questionSubject;
+        public $questionSubjectError;
+        public $type;
+        public $mandatory;
+        public $isSubmit;
+        public $options;
+        public $optionsErrors;
+        public $optionBoxes;
 
         public function __construct($container)
         {
             parent::__construct($container);
-            $this->subject = '';
+            $this->questionSubject = '';
             $this->type = '';
             $this->optionBoxes = null;
             $this->mandatory = 0;
             $this->options['option-1'] = '';
             $this->options['option-2'] = '';
-            $this->subjectError = false;
+            $this->questionSubjectError = false;
             $this->isSubmit = false;
             $this->optionsErrors[0] = false;
             $this->optionsErrors[1] = false;
@@ -65,44 +65,25 @@
 
             if ($this->verifyForm($request)) {
                 try {
-                    $questionId = QuestionManager::getInstance()->addQuestion($id,$this->subject,$this->type,$this->mandatory);
+                    $questionId = QuestionManager::getInstance()->addQuestion($id,$this->questionSubject,$this->type,$this->mandatory);
                     foreach ($this->options as $option) {
                         OptionManager::getInstance()->addOption($questionId, $option);
                     }
                     header("Location:/survey_generator/public/index.php/page?id={$id}");
                     exit;
                 } catch (\Exception $exception) {
-                    $this->subject = '';
+                    $this->questionSubject = '';
                     $this->type = '';
                     $this->optionBoxes = null;
                     $this->mandatory = 0;
                     $this->options['option-1'] = '';
                     $this->options['option-2'] = '';
-                    $this->subjectError = false;
+                    $this->questionSubjectError = false;
                     $this->isSubmit = false;
                     $this->optionsErrors[0] = false;
                     $this->optionsErrors[1] = false;
                 }
             }
-
-            $viewRenderer = $this->container->get('view');
-
-            $response = $viewRenderer->render(
-                $response,
-                "/forms/question_form.phtml",
-                [
-                    'id' => $id,
-                    'subject' => $this->subject,
-                    'subjectError' => $this->subjectError,
-                    'type' => $this->type,
-                    'mandatory' => $this->mandatory,
-                    'isSubmit' => $this->isSubmit,
-                    'options' => $this->options,
-                    'optionsErrors' => $this->optionsErrors,
-                    'optionBoxes' => $this->optionBoxes
-                ]
-            );
-
 
             return $response;
         }
@@ -111,14 +92,14 @@
         {
             if ($request->getParam('form') == 'form') {
                 $this->isSubmit = true;
-                $this->subject = Cleaner::clean($request->getParam('subject'));
+                $this->questionSubject = Cleaner::clean($request->getParam('subject'));
 
-                if (empty($this->subject)) {
-                    $this->subjectError = true;
+                if (empty($this->questionSubject)) {
+                    $this->questionSubjectError = true;
                 } else {
-                    if (strlen($this->subject) > 200) {
-                        $this->subjectError = true;
-                        $this->subject = '';
+                    if (strlen($this->questionSubject) > 200) {
+                        $this->questionSubjectError = true;
+                        $this->questionSubject = '';
                     }
                 }
 
@@ -161,7 +142,15 @@
                     }
                 }
 
-                if ($this->subjectError != '' || !isset($this->optionsErrors)) {
+                $optionError = false;
+
+                foreach ($this->optionsErrors as $error) {
+                    if ($error) {
+                        $optionError = true;
+                    }
+                }
+
+                if ($this->questionSubjectError != '' || $optionError) {
                     return false;
                 } else {
                     return true;
@@ -182,7 +171,7 @@
                 $box .= "has-success";
             } 
             $index++;
-            $box .=" has-feedback' id='option{$index}' ><div class='col-sm-6 col-sm-offset-3'><input class='form-control' placeholder='Option {$index}' name='option-{$index}' value='";
+            $box .=" has-feedback' id='option{$index}' ><div class='col-sm-12'><input class='form-control' placeholder='Option {$index}' name='option-{$index}' value='";
 
             $box .= $this->options["option-{$index}"];
             $box .= "'/>";
