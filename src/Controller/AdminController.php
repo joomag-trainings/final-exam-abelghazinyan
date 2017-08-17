@@ -38,7 +38,7 @@
         {
             $id = $request->getParam('id');
 
-            $pages = PageManager::getInstance()->getPages($id, 1);
+            $pages = PageManager::getInstance()->getPages($id);
 
             $save = true;
 

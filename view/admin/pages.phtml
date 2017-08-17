@@ -1,27 +1,42 @@
 <head>
+    <title>Pages</title>
+    <link rel="shortcut icon" href="../../assets/logo.ico" />
     <?php require "../config/bootstrap_head.php" ?>
 </head>
 <body>
-<div class="container-fluid">
-    <div class="panel panel-primary">
-        <div class="panel-heading clearfix">
-            <form method="post" class="form-control-static" action="/survey_generator/public/index.php/survey_save?id=<?= $id ?>">
-                <button type="submit" class="btn btn-primary btn-md pull-left">
-                    <h4>Back</h4>
-                </button>
-            </form>
-            <h2 class="pull-left">&nbsp;&nbsp;<?= $name ?></h2>
-            <div class="pull-right">
-                    <button class="btn btn-success btn-md" onclick="location.href = '/survey_generator/public/index.php/page_form?id=<?= $id ?>';event.stopPropagation();">
-                        <h4 class="center">Add Page</h4>
-                    </button>
-            </div>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <span class="navbar-brand"><i>SURVEY GENERATOR</i></span>
         </div>
+        <ul class="nav navbar-nav">
+            <li><a href="/survey_generator/public/index.php/">FRAMEWORK</a></li>
+            <li><a href="/survey_generator/public/index.php/admin">ADMINISTRATION PANEL</a></li>
+        </ul>
+        <button class="btn btn-info navbar-btn pull-right" onclick="location.href = '/survey_generator/public/index.php/page_form?id=<?= $id ?>';event.stopPropagation();">
+            <span class="glyphicon glyphicon-plus"></span>
+            Add Page
+        </button>
+        <form method="post" class="navbar-btn pull-right" action="/survey_generator/public/index.php/survey_save?id=<?= $id ?>">
+            <button type="submit" class="btn btn-primary btn-md pull-left">
+                <span class="glyphicon glyphicon-floppy-disk"></span>
+                SAVE
+            </button>
+        </form>
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="panel">
+        <div class="panel-heading clearfix">
+            <h2>&nbsp;&nbsp;<?= $name ?></h2>
+            <span class="text-muted"> <?= $startDate ?> | <?= $expirationDate ?> </span>
+        </div>
+        <hr>
         <div class="panel-body">
-            <pre><strong> <?= $startDate ?> / <?= $expirationDate ?> </strong> <?= $subject ?>
-            </pre>
+            <blockquote><p><?= $subject ?></p>
+            </blockquote>
             <div class="list-group">
-                <?php \Service\PageGroupListDrawer::drawGroupList($id, 1, true) ?>
+                <?php \Service\PageGroupListDrawer::drawGroupList($id,  true) ?>
                 </a>
             </div>
         </div>

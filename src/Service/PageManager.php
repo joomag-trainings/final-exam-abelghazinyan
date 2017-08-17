@@ -43,15 +43,16 @@
             $res = $statement->execute();
             if ($res == false) {
                 throw new \Exception('INSERTION ERROR');
+            } else {
+                $id = $this->connection->lastInsertId();
+                SurveyManager::getInstance()->setSurveyState($survey_id, SurveyManager::SURVEY_STATE_IN_PROGRESS);
+                return $id;
             }
         }
 
-        public function  getPages($survey_id, $page)
+        public function  getPages($survey_id)
         {
-            $start = ($page - 1) * self::PAGE_LOAD_SIZE;
-            $limit = self::PAGE_LOAD_SIZE;
-
-            $statement=$this->connection->prepare("SELECT * FROM pages WHERE survey_id='{$survey_id}' LIMIT {$limit} OFFSET {$start}");
+            $statement=$this->connection->prepare("SELECT * FROM pages WHERE survey_id='{$survey_id}'");
             $statement->execute();
             $res = $statement->fetchAll(\PDO::FETCH_ASSOC);
 

@@ -1,18 +1,38 @@
 <head>
+    <title>Administration Panel</title>
+    <link rel="shortcut icon" href="../../assets/logo.ico" />
     <?php require "../config/bootstrap_head.php" ?>
 </head>
 <body>
-    <div class="container-fluid" align="center">
-        <div class="panel panel-primary">
-            <div class="panel-heading clearfix">
-                <h2 class="pull-left">Administration Panel</h2>
-                <div class="pull-right">
-                    <button class="btn btn-success btn-md" onclick="location.href = '/survey_generator/public/index.php/survey_form';event.stopPropagation();">
-                        <h4 class="center">Create a Survey</h4>
-                    </button>
-                </div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <span class="navbar-brand"><i>SURVEY GENERATOR</i></span>
             </div>
+            <ul class="nav navbar-nav">
+                <li><a href="/survey_generator/public/index.php/">FRAMEWORK</a></li>
+                <li class="active"><a href="/survey_generator/public/index.php/admin">ADMINISTRATION PANEL</a></li>
+            </ul>
+            <button class="btn btn-info navbar-btn pull-right" onclick="location.href = '/survey_generator/public/index.php/survey_form';event.stopPropagation();">
+                <span class="glyphicon glyphicon-plus"></span>
+                Create a Survey
+            </button>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="panel">
+            <div class="panel-heading clearfix">
+                <h2>ADMINISTRATION PANEL</h2>
+            </div>
+            <hr>
             <div class="panel-body">
+                <ul class="list-group list-inline center-block text-center">
+                    <li class="list-group-item-success">Active</li>
+                    <li class="list-group-item-info">Not Started But Has Content</li>
+                    <li class="list-group-item-warning">No Content or Not saved Content</li>
+                    <li class="list-group-item-danger">Expired</li>
+                </ul>
                 <div class="list-group">
                         <?php \Service\SurveyGroupListDrawer::drawGroupList(1, true) ?>
                     </a>

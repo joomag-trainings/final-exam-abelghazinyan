@@ -1,5 +1,5 @@
 <head>
-    <title><?= $page->getSurvey()->getName()?></title>
+    <title><?= $name ?></title>
     <link rel="shortcut icon" href="../../../assets/logo.ico" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,17 +12,23 @@
 </head>
 <body>
 <div class="container-fluid">
-    <?php
-        \Service\SurveyDrawer::drawSurveyPage($page, $options, $optionsError);
-    ?>
+    <div class="panel">
+        <div class="panel-heading clearfix">
+            <h2><?= $name?></h2>
+            <span class="text-muted"> <?= $startDate ?> | <?= $expirationDate ?> </span>
+        </div>
+        <hr>
+        <div class="panel-body">
+            <blockquote><p><?= $subject ?></p>
+            </blockquote>
+            <div class="list-group">
+                <a href="/survey_generator/public/index.php/survey/<?=$hash?>&1" class="btn btn-primary btn-md pull-right">Take The Survey</a>
+            </div>
+        </div>
+    </div>
 </div>
+</body>
 
 <script src="../../../bootstrap/js/jquery.min.js"></script>
 <script src="../../../bootstrap/js/bootstrap.min.js"></script></body>
-<?php
-    if (!empty($optionsError)) {
-        $id = $optionsError[0];
-        echo "<script>$('html,body').animate({scrollTop: $(\"#\"+{$id}).offset().top},'slow');</script>";
-    }
-?>
 </html>

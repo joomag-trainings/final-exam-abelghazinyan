@@ -16,8 +16,9 @@
                     <h2 class='pull-left'>{$page->getName()}</h2>
                     <h2 class='pull-right'>{$page->getPageNumber()} / {$page->getPageCount()}</h2>
                 </div>
+                <hr>
                 <div class=\"panel-body\">
-                    <pre>{$page->getSubject()}</pre>
+                    <blockquote>{$page->getSubject()}</blockquote>
                     <form class=\"form-horizontal\" method=\"post\">";
 
             if ($page->getNextPage()) {
@@ -29,18 +30,17 @@
 
             $position = 1;
             foreach ($page->getQuestions() as $question) {
-                echo  "<div ";
+                echo  "<div class=\"panel\" id='{$question->getId()}'>
+                            <div class=\"panel-heading clearfix\"><h4 class=\"pull-left";
                 if (!is_null($errors)) {
                     if (in_array($question->getId(), $errors)) {
-                        echo "style=\"background-color:#F72E45\"";
+                        echo " text-danger";
                     }
                 }
-                echo  "class=\"panel\" id='{$question->getId()}'>
-                            <div class=\"panel-heading clearfix\">
-                            <h4 class=\"pull-left\"> <strong>";
+                echo "\"><strong>";
 
                 if ($question->getMandatory() == 1) {
-                    echo "<span class=\"text-danger glyphicon glyphicon-star-empty\"></span>";
+                    echo "<span class=\"text-danger glyphicon glyphicon-asterisk\"></span>";
 
                 }
                 echo "{$position}) </strong>{$question->getSubject()}</h4>";
@@ -81,9 +81,14 @@
             }
 
             if ($page->getNextPage()) {
-                echo "<button type='submit' class='btn btn-primary btn-lg text-center pull-right'>Next</button>";
+                echo "<button type='submit' class='btn btn-primary btn-md text-center pull-right'>Next
+                        <span class=\"glyphicon glyphicon-chevron-right\"></span>
+                        </button>";
             } else {
-                echo "<button type='submit' class='btn btn-success btn-lg text-center pull-right'>Finish</button>";
+                echo "<button type='submit' class='btn btn-success btn-md text-center pull-right'>
+                        <span class=\"glyphicon glyphicon-ok\"></span>
+                        Finish
+                        </button>";
             }
 
             echo "</form></div>";
@@ -102,7 +107,7 @@
                             <h4 class=\"pull-left\"> <strong>";
 
                 if ($question->getMandatory() == 1) {
-                    echo "<span class=\"text-danger glyphicon glyphicon-star-empty\"></span>";
+                    echo "<span class=\"text-danger glyphicon glyphicon-asterisk\"></span>";
 
                 }
                 echo "{$position}) </strong>{$question->getSubject()}</h4>";
@@ -120,10 +125,16 @@
             }
 
             if ($page->getNextPage()) {
-                echo "<a type='submit' class='btn btn-primary btn-lg text-center pull-right' href='/survey_generator/public/index.php/stats?id={$page->getSurvey()->getId()}&pageNumber={$next}'>Next</a>";
+                echo "<a type='submit' class='btn btn-primary btn-md text-center pull-right' href='/survey_generator/public/index.php/stats?id={$page->getSurvey()->getId()}&pg={$next}'>
+                        Next
+                        <span class=\"glyphicon glyphicon-chevron-right\"></span>
+                        </a>";
             }
             if ($page->getPrevPage()) {
-                echo "<a type='submit' class='btn btn-primary btn-lg text-center pull-left' href='/survey_generator/public/index.php/stats?id={$page->getSurvey()->getId()}&pageNumber={$prev}'>Previous</a>";
+                echo "<a type='submit' class='btn btn-primary btn-md text-center pull-left' href='/survey_generator/public/index.php/stats?id={$page->getSurvey()->getId()}&pg={$prev}'>
+                        <span class=\"glyphicon glyphicon-chevron-left\"></span>
+                        Previous
+                        </a>";
             }
 
             echo "</form></div>";
@@ -158,31 +169,7 @@
                     var options = {'title':\"Total number of Answers: {$total}\",
                                'width':\"100%\",
                                'height':\"{$height}\",
-                               'backgroundColor': { fill:'transparent' },
-                               titleTextStyle: {
-                                    color: 'white'
-                                },
-                                hAxis: {
-                                    textStyle: {
-                                        color: 'white'
-                                    },
-                                    titleTextStyle: {
-                                        color: 'white'
-                                    }
-                                },
-                                vAxis: {
-                                    textStyle: {
-                                        color: 'white'
-                                    },
-                                    titleTextStyle: {
-                                        color: 'white'
-                                    }
-                                },
-                                legend: {
-                                    textStyle: {
-                                        color: 'white'
-                                    }
-                                }
+                               'backgroundColor': { fill:'transparent' }
                                };
           
                     var chart = new google.visualization.BarChart(document.getElementById('{$id}'));

@@ -53,7 +53,9 @@
             if ($res == false) {
                 throw new \Exception('INSERTION ERROR');
             } else {
-                return $this->connection->lastInsertId();
+                $id = $this->connection->lastInsertId();
+                PageManager::getInstance()->setPageState($page_id, PageManager::PAGE_STATE_IN_PROGRESS);
+                return $id;
             }
         }
 

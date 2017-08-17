@@ -1,6 +1,7 @@
 <?php
 
     $app->get('/error', \Controller\ErrorController::class . ':notFound')->setName("404");
+    $app->get('/success', \Controller\SurveyController::class . ':showSuccess')->setName("success");
 
     $app->get('/admin', \Controller\AdminController::class . ':showPage')->setName("admin");
     $app->get('/admin={pageNumber}', \Controller\AdminController::class . ':getPage')->setName("admin");

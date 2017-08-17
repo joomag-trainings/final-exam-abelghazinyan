@@ -18,7 +18,7 @@
                     $position ++;
                 }
             } elseif ($info) {
-                echo "<h1 class='text-center text-danger'>No Questions</h1>";
+                echo "<h4 class='text-info' align='center'>Currently there are no questions</h4>";
             }
         }
 
@@ -33,13 +33,13 @@
                        <h4 class=\"pull-left\"> <strong>";
 
             if ($question->getMandatory() == 1) {
-                echo "<span class=\"text-danger glyphicon glyphicon-star-empty\"></span>";
+                echo "<span class=\"text-danger glyphicon glyphicon-asterisk\"></span>";
             }
 
             echo "{$position}) </strong>{$question->getSubject()}</h4>
                         <span class=\"pull-right\">
                              <form method='post' class='pull-right form-control-static' action='/survey_generator/public/index.php/question_delete?id={$question->getId()}&page_id={$pageId}'>
-                                 <button type='submit' class=\"btn btn-md btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></button>
+                                 <button type='submit' class=\"btn btn-md\"><span class=\"glyphicon glyphicon-trash text-danger\"></span></button>
                              </form>
                              <form method='post' class='pull-right form-control-static' action='/survey_generator/public/index.php/question_arrange?id={$question->getId()}&page_id={$pageId}'>
                                 <input type='hidden' name='anchor' value='{$question->getId()}'>
@@ -73,7 +73,7 @@
             }
 
             echo "</form></div></span></div><div class=\"panel-body\"><ul class=\"list-group\">";
-            echo "<h6 class='text-info'>{$question->getType()}-select </h6>";
+            echo "<h5 class='text-danger text-uppercase'>{$question->getType()}-select </h5>";
 
             $pos = 1;
             foreach ($options as $option) {

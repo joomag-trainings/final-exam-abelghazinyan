@@ -49,8 +49,8 @@
 
             if ($this->verifyForm($request)) {
                 try {
-                    PageManager::getInstance()->addPage($id, $this->name, $this->subject);
-                    header("Location:/survey_generator/public/index.php/pages?id={$id}");
+                    $pageId = PageManager::getInstance()->addPage($id, $this->name, $this->subject);
+                    header("Location:/survey_generator/public/index.php/pages?id={$id}#$pageId");
                     exit;
                 } catch (\Exception $exception) {
                     $this->name = '';

@@ -185,7 +185,7 @@
                 throw new \Slim\Exception\NotFoundException($request, $response);
             }
 
-            $pageNumber = $request->getParam('pageNumber');
+            $pageNumber = $request->getParam('pg');
 
             if (!is_numeric($pageNumber)) {
                 throw new \Slim\Exception\NotFoundException($request, $response);

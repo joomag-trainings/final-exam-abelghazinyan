@@ -23,9 +23,38 @@
         {
             session_start();
             session_unset();
+            $_SESSION['start'] = true;
             $hash = $args['hash'];
-            header("Location:/survey_generator/public/index.php/survey/{$hash}&1");
-            exit;
+
+            $id = SurveyManager::getInstance()->getSurveyIdByHash($hash);
+
+            if (is_null($id)) {
+                throw new \Slim\Exception\NotFoundException($request, $response);
+            } else {
+                $survey = SurveyManager::getInstance()->getSurveyById($id);
+                $today = new \DateTime('now');
+                $today = $today->format('Y-m-d');
+
+                if (($survey->getStartDate() <= $today) && ($survey->getExpirationDate() < $today )) {
+                    throw new \Slim\Exception\NotFoundException($request, $response);
+                }
+            }
+
+            $viewRenderer = $this->container->get('view');
+
+            $response = $viewRenderer->render(
+                $response,
+                "/framework/intro.phtml",
+                [
+                   "name" => $survey->getName(),
+                    "subject" => $survey->getSubject(),
+                    "startDate" => $survey->getStartDate(),
+                    "expirationDate" => $survey->getExpirationDate(),
+                    "hash" => $hash
+                ]
+            );
+
+            return $response;
         }
 
         public function showPage(Request $request, Response $response, $args)
@@ -39,7 +68,11 @@
             }
 
             $prev = $page-1;
-            if ($page < 1 || ($page != 1 && empty($_SESSION)) || ($page != 1 && empty($_SESSION["page-" . $prev])) || ($page >= 1 && !empty($_SESSION["page-" . $page]))) {
+            if (empty($_SESSION) ||
+                ($page < 1) ||
+                ($page != 1 && empty($_SESSION)) ||
+                ($page != 1 && empty($_SESSION["page-" . $prev])) ||
+                ($page >= 1 && !empty($_SESSION["page-" . $page]))) {
                 throw new \Slim\Exception\NotFoundException($request, $response);
             }
 
@@ -66,8 +99,7 @@
                         } catch (\Exception $exception) {
                             die($exception);
                         }
-                        session_destroy();
-                        header("Location:/survey_generator/public/index.php/");
+                        header("Location:/survey_generator/public/index.php/success");
                         exit;
                     }
                 }
@@ -130,5 +162,26 @@
             } else {
                 return false;
             }
+        }
+
+        public function showSuccess(Request $request, Response $response, $args)
+        {
+            session_start();
+
+            if (empty($_SESSION)) {
+                throw new \Slim\Exception\NotFoundException($request, $response);
+            }
+
+            $viewRenderer = $this->container->get('view');
+
+            $response = $viewRenderer->render(
+                $response,
+                "/framework/end.phtml",
+                [
+
+                ]
+            );
+
+            return $response;
         }
     }

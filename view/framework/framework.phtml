@@ -1,12 +1,26 @@
 <head>
+    <title>Framework</title>
+    <link rel="shortcut icon" href="../../assets/logo.ico" />
     <?php require "../config/bootstrap_head.php" ?>
 </head>
 <body>
-<div class="container-fluid" align="center">
-    <div class="panel panel-primary">
-        <div class="panel-heading clearfix">
-            <h2>Framework</h2>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <span class="navbar-brand"><i>SURVEY GENERATOR</i></span>
         </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/survey_generator/public/index.php/">FRAMEWORK</a></li>
+            <li><a href="/survey_generator/public/index.php/admin">ADMINISTRATION PANEL</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="panel">
+        <div class="panel-heading clearfix">
+            <h2>FRAMEWORK</h2>
+        </div>
+        <hr>
         <div class="panel-body">
             <div class="list-group">
                 <?php \Service\SurveyGroupListDrawer::drawFrameworkList(1, true) ?>
@@ -36,4 +50,30 @@
 
         }
     };
+
+    copyButtons = document.querySelectorAll('.copy');
+
+    for (i=0 ; i < copyButtons.length ; i++) {
+        copyButtons[i].addEventListener('click', copy(copyButtons[i].getAttribute('id').split('B-')[1]))
+    }
+
+    //Clipboard
+    function copy(id) {
+        var btn = '#B-'.concat(id);
+        var copyTextareaBtn = document.querySelector(btn);
+
+        var textarea = '#T-'.concat(id);
+
+        copyTextareaBtn.addEventListener('click', function(event) {
+            var copyTextarea = document.querySelector(textarea);
+            copyTextarea.select();
+
+            try {
+                var successful = document.execCommand('copy');
+                var msg = successful ? 'successful' : 'unsuccessful';
+            } catch (err) {
+                console.log('Oops, unable to copy');
+            }
+        });
+    }
 </script>

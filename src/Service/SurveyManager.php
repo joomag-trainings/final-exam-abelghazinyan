@@ -11,7 +11,7 @@
         private $connection;
         const SURVEY_STATE_IN_PROGRESS = 0;
         const SURVEY_STATE_CREATED = 1;
-        const SURVEY_LOAD_SIZE = 12;
+        const SURVEY_LOAD_SIZE = 10;
 
         private function __construct()
         {
@@ -62,7 +62,7 @@
             $start = ($page - 1) * self::SURVEY_LOAD_SIZE;
             $limit = self::SURVEY_LOAD_SIZE;
 
-            $statement=$this->connection->prepare("SELECT * FROM surveys LIMIT {$limit} OFFSET {$start}");
+            $statement=$this->connection->prepare("SELECT * FROM surveys ORDER BY id DESC LIMIT {$limit} OFFSET {$start}");
             $statement->execute();
             $res = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -82,7 +82,7 @@
             $start = ($page - 1) * self::SURVEY_LOAD_SIZE;
             $limit = self::SURVEY_LOAD_SIZE;
 
-            $statement=$this->connection->prepare("SELECT * FROM surveys WHERE state = 1 AND start_date <= now() AND expiration_date >= now() LIMIT {$limit} OFFSET {$start}");
+            $statement=$this->connection->prepare("SELECT * FROM surveys WHERE state = 1 AND start_date <= now() AND expiration_date >= now() ORDER BY id DESC LIMIT {$limit} OFFSET {$start}");
             $statement->execute();
             $res = $statement->fetchAll(\PDO::FETCH_ASSOC);
 

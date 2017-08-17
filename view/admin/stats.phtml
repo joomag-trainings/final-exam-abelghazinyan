@@ -1,19 +1,29 @@
 <head>
+    <title>Statistics</title>
+    <link rel="shortcut icon" href="../../assets/logo.ico" />
     <?php require "../config/bootstrap_head.php" ?>
 </head>
 <body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <span class="navbar-brand"><i>SURVEY GENERATOR</i></span>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="/survey_generator/public/index.php/">FRAMEWORK</a></li>
+            <li><a href="/survey_generator/public/index.php/admin">ADMINISTRATION PANEL</a></li>
+        </ul>
+    </div>
+</nav>
 <div class="container-fluid">
     <div class="panel">
         <div class="panel-heading clearfix">
-            <button class="btn btn-primary btn-md pull-left" onclick="location.href = '/survey_generator/public/index.php/admin';event.stopPropagation();">
-                <h4>Back</h4>
-            </button>
-            <h2 class="pull-left">&nbsp;&nbsp;<?= $page->getName() ?></h2>
+            <h2 class="pull-left"><?= $page->getName()?></h2>
             <h2 class="pull-right">&nbsp;&nbsp;<?= $page->getPageNumber() ." / " . $page->getPageCount() ?></h2>
         </div>
         <div class="panel-body">
-            <pre><?= $page->getSubject() ?>
-            </pre>
+            <blockquote><?= $page->getSubject() ?>
+            </blockquote>
             <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
             <div class="list-group">
                 <?php \Service\SurveyDrawer::drawPageStats($page) ?>
