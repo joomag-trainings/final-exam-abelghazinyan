@@ -118,11 +118,9 @@
                 unset($params['type']);
                 unset($params['mandatory']);
 
-                foreach ($params as $param) {
-                    $this->param = Cleaner::clean($param);
+                foreach ($params as $key => $param) {
+                    $this->options[$key] = Cleaner::clean($param);
                 }
-
-                $this->options = $params;
 
                 $this->optionsErrors = null;
 
