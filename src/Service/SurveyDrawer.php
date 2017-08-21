@@ -152,7 +152,7 @@
             foreach ($array as $key => $value) {
                 $count++;
                 $total += $value;
-                $string .= "['{$key}',{$value}],";
+                $string .= "[\"{$key}\",{$value}],";
             }
 
             $height = $count * 30;
