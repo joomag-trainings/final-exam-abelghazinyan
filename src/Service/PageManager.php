@@ -2,7 +2,6 @@
 
     namespace Service;
 
-
     use Model\PageModel;
 
     class PageManager
@@ -32,7 +31,8 @@
 
             $state = self::PAGE_STATE_IN_PROGRESS;
             $statement = $this->connection->prepare(
-                "INSERT INTO pages (id, survey_id, name, subject, state) VALUES (NULL, :survey_id, :name, :subject, :state)"
+                "INSERT INTO pages (id, survey_id, name, subject, state)
+                           VALUES (NULL, :survey_id, :name, :subject, :state)"
             );
 
             $statement->bindParam('survey_id',$survey_id);
@@ -70,7 +70,8 @@
         public function  getPageByNumber($survey_id, $page)
         {
             $page--;
-            $statement=$this->connection->prepare("SELECT * FROM pages WHERE survey_id='{$survey_id}' LIMIT 1 OFFSET {$page}");
+            $statement=$this->connection->prepare(
+                "SELECT * FROM pages WHERE survey_id='{$survey_id}' LIMIT 1 OFFSET {$page}");
             $statement->execute();
             $res = $statement->fetch(\PDO::FETCH_ASSOC);
 

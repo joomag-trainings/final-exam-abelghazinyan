@@ -97,7 +97,7 @@
                 if (empty($this->questionSubject)) {
                     $this->questionSubjectError = true;
                 } else {
-                    if (strlen($this->questionSubject) > 200) {
+                    if (strlen($this->questionSubject) > 500) {
                         $this->questionSubjectError = true;
                         $this->questionSubject = '';
                     }
@@ -127,7 +127,7 @@
                 foreach ($this->options as $option) {
                     if (empty($option)) {
                         $this->optionsErrors[] = true;
-                    } elseif (strlen($option) > 100) {
+                    } elseif (strlen($option) > 500) {
                         $this->optionsErrors[] = true;
                     } else {
                         $this->optionsErrors[] = false;

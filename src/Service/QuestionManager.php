@@ -2,7 +2,6 @@
 
     namespace Service;
 
-
     use Model\QuestionModel;
 
     class QuestionManager
@@ -28,7 +27,8 @@
         public function addQuestion($page_id,$subject,$type,$mandatory)
         {
 
-            $statement=$this->connection->prepare("SELECT * FROM questions WHERE page_id='{$page_id}' ORDER BY position DESC LIMIT 1");
+            $statement=$this->connection->prepare(
+                "SELECT * FROM questions WHERE page_id='{$page_id}' ORDER BY position DESC LIMIT 1");
             $statement->execute();
             $res = $statement->fetch(\PDO::FETCH_ASSOC);
 
@@ -40,7 +40,8 @@
             }
 
             $statement = $this->connection->prepare(
-                "INSERT INTO questions (id, page_id, subject, type, mandatory, position) VALUES (NULL, :page_id, :subject, :type, :mandatory, :position)"
+                "INSERT INTO questions (id, page_id, subject, type, mandatory, position) 
+                           VALUES (NULL, :page_id, :subject, :type, :mandatory, :position)"
             );
 
             $statement->bindParam('page_id',$page_id);
@@ -62,7 +63,8 @@
         public function  getQuestions($id)
         {
 
-            $statement=$this->connection->prepare("SELECT * FROM questions WHERE page_id='{$id}' ORDER BY position ASC");
+            $statement=$this->connection->prepare(
+                "SELECT * FROM questions WHERE page_id='{$id}' ORDER BY position ASC");
             $statement->execute();
             $res = $statement->fetchAll(\PDO::FETCH_ASSOC);
 

@@ -2,7 +2,6 @@
 
     namespace Service;
 
-
     use Model\SurveyModel;
 
     class SurveyGroupListDrawer
@@ -52,8 +51,12 @@
         {
             $link = "45.55.80.53/survey_generator/public/index.php/survey/{$survey->getHash()}";
             echo "<div class='list-group-item clearfix'>
-                        <button data-toggle=\"modal\" data-target=\"#M-{$survey->getId()}\" class=\"btn btn-xs pull-right\"><span class=\"glyphicon glyphicon-link\"></span> GET URL</button>
-                        <a href='/survey_generator/public/index.php/survey/{$survey->getHash()}'><h3 class='list-group-item-heading text-capitalize'><i>{$survey->getName()}</i></h3></a>
+                        <button data-toggle=\"modal\" data-target=\"#M-{$survey->getId()}\" class=\"btn btn-xs pull-right\">
+                            <span class=\"glyphicon glyphicon-link\"></span> GET URL
+                        </button>
+                        <a href='/survey_generator/public/index.php/survey/{$survey->getHash()}'>
+                            <h3 class='list-group-item-heading text-capitalize'><i>{$survey->getName()}</i></h3>
+                        </a>
                         <small class='text-primary'>{$survey->getExpirationDate()}</small>
                         <blockquote class='text-justify text-muted'>{$survey->getSubject()}</blockquote>
                     </div>";
@@ -78,10 +81,14 @@
 
         private static function drawInProgressSurvey(SurveyModel $survey)
         {
-            echo "<a href='/survey_generator/public/index.php/pages?id={$survey->getId()}' class='list-group-item list-group-item-warning clearfix'>
+            echo "<a href='/survey_generator/public/index.php/pages?id={$survey->getId()}' 
+                     class='list-group-item list-group-item-warning clearfix'>
                         <span class='pull-right'>  
-                             <form method='post' class='pull-right' action='/survey_generator/public/index.php/survey_delete?id={$survey->getId()}'> 
-                                    <button type='submit' class=\"btn btn-md btn-default\"><span class=\"glyphicon glyphicon-trash text-danger\"></span></button>
+                             <form method='post' class='pull-right' 
+                                   action='/survey_generator/public/index.php/survey_delete?id={$survey->getId()}'> 
+                                    <button type='submit' class=\"btn btn-md btn-default\">
+                                        <span class=\"glyphicon glyphicon-trash text-danger\"></span>
+                                    </button>
                              </form>                          
                         </span>
                         <h3 class='list-group-item-heading'><i>{$survey->getName()}</i></h3>
@@ -93,10 +100,14 @@
 
         private static function drawNotStartedSurvey(SurveyModel $survey)
         {
-            echo "<a href='/survey_generator/public/index.php/pages?id={$survey->getId()}' class='list-group-item list-group-item-info clearfix'>
+            echo "<a href='/survey_generator/public/index.php/pages?id={$survey->getId()}' 
+                     class='list-group-item list-group-item-info clearfix'>
                         <span class='pull-right'>  
-                             <form method='post' class='pull-right' action='/survey_generator/public/index.php/survey_delete?id={$survey->getId()}'> 
-                                    <button type='submit' class=\"btn btn-md btn-default\"><span class=\"glyphicon glyphicon-trash text-danger\"></span></button>
+                             <form method='post' class='pull-right' 
+                                   action='/survey_generator/public/index.php/survey_delete?id={$survey->getId()}'> 
+                                    <button type='submit' class=\"btn btn-md btn-default\">
+                                        <span class=\"glyphicon glyphicon-trash text-danger\"></span>
+                                    </button>
                              </form>                          
                         </span>
                         <h3 class='list-group-item-heading'><i>{$survey->getName()}</i></h3>
@@ -108,10 +119,14 @@
 
         private static function drawStartedSurvey(SurveyModel $survey)
         {
-            echo "<a href='/survey_generator/public/index.php/pages?id={$survey->getId()}' class='list-group-item list-group-item-success clearfix'>
+            echo "<a href='/survey_generator/public/index.php/pages?id={$survey->getId()}' 
+                     class='list-group-item list-group-item-success clearfix'>
                         <span class='pull-right'>  
-                             <form method='post' class='pull-right' action='/survey_generator/public/index.php/survey_delete?id={$survey->getId()}'> 
-                                    <button type='submit' class=\"btn btn-md btn-default\"><span class=\"glyphicon glyphicon-trash text-danger\"></span></button>
+                             <form method='post' class='pull-right' 
+                                   action='/survey_generator/public/index.php/survey_delete?id={$survey->getId()}'> 
+                                    <button type='submit' class=\"btn btn-md btn-default\">
+                                        <span class=\"glyphicon glyphicon-trash text-danger\"></span>
+                                    </button>
                              </form> 
                              <form method='get' class='pull-right' action='/survey_generator/public/index.php/stats'>
                                     <input type='hidden' name='id' value='{$survey->getId()}'>
@@ -130,10 +145,14 @@
 
         private static function drawExpiredSurvey(SurveyModel $survey)
         {
-            echo "<a href='/survey_generator/public/index.php/stats?id={$survey->getId()}&pg=1' class='list-group-item list-group-item-danger clearfix'>
+            echo "<a href='/survey_generator/public/index.php/stats?id={$survey->getId()}&pg=1' 
+                     class='list-group-item list-group-item-danger clearfix'>
                         <span class='pull-right'>  
-                             <form method='post' class='pull-right' action='/survey_generator/public/index.php/survey_delete?id={$survey->getId()}'> 
-                                    <button type='submit' class=\"btn btn-md btn-default\"><span class=\"glyphicon glyphicon-trash text-danger\"></span></button>
+                             <form method='post' class='pull-right' 
+                                   action='/survey_generator/public/index.php/survey_delete?id={$survey->getId()}'> 
+                                    <button type='submit' class=\"btn btn-md btn-default\">
+                                        <span class=\"glyphicon glyphicon-trash text-danger\"></span>
+                                    </button>
                              </form> 
                              <form method='get' class='pull-right' action='/survey_generator/public/index.php/stats'>
                                     <input type='hidden' name='id' value='{$survey->getId()}'>

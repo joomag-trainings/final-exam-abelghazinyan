@@ -10,11 +10,12 @@
             <div class="modal-body">
                     <input type="hidden" name="form" value="form">
                     <div class="form-group
-                    <?php if ($nameError && $isSubmit) {
-                        echo "has-error";
-                    } elseif ($isSubmit) {
-                        echo "has-success";
-                    } ?>
+                    <?php
+                        if ($nameError && $isSubmit) {
+                            echo "has-error";
+                        } elseif ($isSubmit) {
+                            echo "has-success";
+                        } ?>
                     has-feedback">
                         <label class="control-label col-sm-1" for="name"><strong>Name</strong></label>
                         <div class="col-sm-11">
@@ -30,11 +31,12 @@
                         </div>
                     </div>
                     <div class="form-group
-                        <?php if ($subjectError && $isSubmit) {
-                            echo "has-error";
-                        } elseif ($isSubmit) {
-                            echo "has-success";
-                        } ?> has-feedback"
+                        <?php
+                            if ($subjectError && $isSubmit) {
+                                echo "has-error";
+                            } elseif ($isSubmit) {
+                                echo "has-success";
+                            } ?> has-feedback"
                         ">
                         <label class="control-label col-sm-1" for="subject"><strong>Subject</strong></label>
                         <div class="col-sm-11">
@@ -51,11 +53,12 @@
                         </div>
                     </div>
                     <div class="form-group
-                    <?php if ($startDateError && $isSubmit) {
-                        echo "has-error";
-                    } elseif ($isSubmit) {
-                        echo "has-success";
-                    } ?> has-feedback"
+                    <?php
+                        if ($startDateError && $isSubmit) {
+                            echo "has-error";
+                        } elseif ($isSubmit) {
+                            echo "has-success";
+                        } ?> has-feedback"
                     ">
                     <label class="control-label col-sm-4 " for="start_date">
                         <strong>Start Date</strong>
@@ -75,11 +78,12 @@
                         </div>
                     </div>
                     <div class="form-group
-                    <?php if ($expirationDateError && $isSubmit) {
-                        echo "has-error";
-                    } elseif ($isSubmit) {
-                        echo "has-success";
-                    } ?> has-feedback"
+                    <?php
+                        if ($expirationDateError && $isSubmit) {
+                            echo "has-error";
+                        } elseif ($isSubmit) {
+                            echo "has-success";
+                        } ?> has-feedback"
                     ">
                     <label class="control-label col-sm-4 " for="expiration_date">
                         <strong>Expiration Date</strong>

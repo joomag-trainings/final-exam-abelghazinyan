@@ -2,7 +2,6 @@
 
     namespace Service;
 
-
     use Model\QuestionModel;
     use Model\OptionModel;
 
@@ -38,10 +37,12 @@
 
             echo "{$position}) </strong>{$question->getSubject()}</h4>
                         <span class=\"pull-right\">
-                             <form method='post' class='pull-right form-control-static' action='/survey_generator/public/index.php/question_delete?id={$question->getId()}&page_id={$pageId}'>
+                             <form method='post' class='pull-right form-control-static' 
+                                   action='/survey_generator/public/index.php/question_delete?id={$question->getId()}&page_id={$pageId}'>
                                  <button type='submit' class=\"btn btn-md\"><span class=\"glyphicon glyphicon-trash text-danger\"></span></button>
                              </form>
-                             <form method='post' class='pull-right form-control-static' action='/survey_generator/public/index.php/question_arrange?id={$question->getId()}&page_id={$pageId}'>
+                             <form method='post' class='pull-right form-control-static' 
+                                   action='/survey_generator/public/index.php/question_arrange?id={$question->getId()}&page_id={$pageId}'>
                                 <input type='hidden' name='anchor' value='{$question->getId()}'>
                                 <div class=\"btn-group btn-group-vertical\">";
 

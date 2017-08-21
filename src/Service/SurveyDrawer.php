@@ -2,7 +2,6 @@
 
     namespace Service;
 
-
     use Model\FrameworkPageModel;
 
     class SurveyDrawer
@@ -52,7 +51,8 @@
                     echo  "<li class=\"list-group-item\"><label><h5>";
                     if ($question->getType() == 'single') {
                         if (!is_null($options)) {
-                            if (key_exists($question->getId(), $options) && $option->getId() == $options[$question->getId()]){
+                            if (key_exists($question->getId(), $options)
+                                && $option->getId() == $options[$question->getId()]){
                                 echo "<input type=\"radio\" name=\"q-{$question->getId()}\" value=\"{$option->getId()}\" checked>";
                             } else {
                                 echo "<input type=\"radio\" name=\"q-{$question->getId()}\" value=\"{$option->getId()}\">";
@@ -62,7 +62,8 @@
                         }
                     } else {
                         if (!is_null($options)) {
-                            if (key_exists($question->getId() . "-" . $option->getId(), $options) && $option->getId() == $options[$question->getId() . "-" . $option->getId()]) {
+                            if (key_exists($question->getId() . "-" . $option->getId(), $options)
+                                && $option->getId() == $options[$question->getId() . "-" . $option->getId()]) {
                                 echo "<input type=\"checkbox\" name=\"q-{$question->getId()}-{$option->getId()}\" value=\"{$option->getId()}\" checked>";
                             } else {
                                 echo "<input type=\"checkbox\" name=\"q-{$question->getId()}-{$option->getId()}\" value=\"{$option->getId()}\">";
@@ -125,13 +126,15 @@
             }
 
             if ($page->getNextPage()) {
-                echo "<a type='submit' class='btn btn-primary btn-md text-center pull-right' href='/survey_generator/public/index.php/stats?id={$page->getSurvey()->getId()}&pg={$next}'>
+                echo "<a type='submit' class='btn btn-primary btn-md text-center pull-right' 
+                         href='/survey_generator/public/index.php/stats?id={$page->getSurvey()->getId()}&pg={$next}'>
                         Next
                         <span class=\"glyphicon glyphicon-chevron-right\"></span>
                         </a>";
             }
             if ($page->getPrevPage()) {
-                echo "<a type='submit' class='btn btn-primary btn-md text-center pull-left' href='/survey_generator/public/index.php/stats?id={$page->getSurvey()->getId()}&pg={$prev}'>
+                echo "<a type='submit' class='btn btn-primary btn-md text-center pull-left' 
+                         href='/survey_generator/public/index.php/stats?id={$page->getSurvey()->getId()}&pg={$prev}'>
                         <span class=\"glyphicon glyphicon-chevron-left\"></span>
                         Previous
                         </a>";
@@ -178,6 +181,5 @@
             </script>";
 
             echo "<div id='{$id}' ></div>";
-
         }
     }

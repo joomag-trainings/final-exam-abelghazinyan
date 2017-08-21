@@ -4,10 +4,6 @@
 
     use Slim\Container;
 
-    /**
-     * Class AbstractController
-     * @package Core
-     */
     abstract class AbstractController
     {
         protected $container;

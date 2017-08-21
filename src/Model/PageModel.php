@@ -2,7 +2,6 @@
 
     namespace Model;
 
-
     class PageModel
     {
         private $id;

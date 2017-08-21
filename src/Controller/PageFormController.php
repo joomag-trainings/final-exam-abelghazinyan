@@ -64,6 +64,11 @@
             return $response;
         }
 
+        /**
+         * Return true if the form validation is passed otherwise false.
+         * @param Request $request
+         * @return bool
+         */
         private function verifyForm(Request $request)
         {
             if ($request->getParam('form') == 'form') {
@@ -73,7 +78,7 @@
                 if (empty($this->name)) {
                     $this->nameError = true;
                 } else {
-                    if (strlen($this->name) > 100) {
+                    if (strlen($this->name) > 500) {
                         $this->nameError = true;
                         $this->name = '';
                     }

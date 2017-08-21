@@ -2,7 +2,6 @@
 
     namespace Service;
 
-
     use Model\OptionModel;
 
     class OptionManager

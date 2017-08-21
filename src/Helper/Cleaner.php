@@ -2,7 +2,6 @@
 
     namespace Helper;
 
-
     class Cleaner
     {
         static public function clean($data)

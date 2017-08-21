@@ -12,6 +12,7 @@
             'determineRouteBeforeAppMiddleware' => true,
         ],
     ];
+
     $container = new \Slim\Container($configuration);
     $app = new \Slim\App($container);
 
@@ -26,6 +27,9 @@
         };
     };
 
+    /**
+     * Middleware for not existing routes
+     */
     $app->add(function (Request $request, Response $response, $next){
 
         $route = $request->getAttribute('route');

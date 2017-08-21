@@ -2,7 +2,6 @@
 
     namespace Model;
 
-
     class QuestionModel
     {
         private $id;

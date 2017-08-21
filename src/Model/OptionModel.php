@@ -2,7 +2,6 @@
 
     namespace Model;
 
-
     class OptionModel
     {
         private $id;

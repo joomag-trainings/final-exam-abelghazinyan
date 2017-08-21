@@ -65,7 +65,7 @@
                 if (empty($this->name)) {
                     $this->nameError = true;
                 } else {
-                    if (strlen($this->name) > 100) {
+                    if (strlen($this->name) > 500) {
                         $this->nameError = true;
                         $this->name = '';
                     }
@@ -117,7 +117,7 @@
                             $this->expirationDateError = true;
                             $this->expirationDate = '';
                         } elseif ($this->startDateError == false) {
-                            if ($this->expirationDate < $this->startDate) {
+                            if ($this->expirationDate <= $this->startDate) {
                                 $this->expirationDateError = true;
                                 $this->expirationDate = '';
                                 $this->startDateError = true;

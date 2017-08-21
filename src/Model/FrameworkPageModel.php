@@ -2,7 +2,6 @@
 
     namespace Model;
 
-
     class FrameworkPageModel extends PageModel
     {
         /**

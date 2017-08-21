@@ -2,7 +2,6 @@
 
     namespace Service;
 
-
     use Model\SurveyModel;
 
     class SurveyManager
@@ -32,7 +31,8 @@
 
             $state = self::SURVEY_STATE_IN_PROGRESS;
             $statement = $this->connection->prepare(
-                "INSERT INTO surveys (id, name, subject, start_date, expiration_date, state) VALUES (NULL, :name, :subject, :startDate, :expirationDate, :state)"
+                "INSERT INTO surveys (id, name, subject, start_date, expiration_date, state) 
+                           VALUES (NULL, :name, :subject, :startDate, :expirationDate, :state)"
             );
 
             $statement->bindParam('name',$name);
@@ -62,7 +62,8 @@
             $start = ($page - 1) * self::SURVEY_LOAD_SIZE;
             $limit = self::SURVEY_LOAD_SIZE;
 
-            $statement=$this->connection->prepare("SELECT * FROM surveys ORDER BY id DESC LIMIT {$limit} OFFSET {$start}");
+            $statement=$this->connection->prepare(
+                "SELECT * FROM surveys ORDER BY id DESC LIMIT {$limit} OFFSET {$start}");
             $statement->execute();
             $res = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -82,7 +83,10 @@
             $start = ($page - 1) * self::SURVEY_LOAD_SIZE;
             $limit = self::SURVEY_LOAD_SIZE;
 
-            $statement=$this->connection->prepare("SELECT * FROM surveys WHERE state = 1 AND start_date <= now() AND expiration_date >= now() ORDER BY id DESC LIMIT {$limit} OFFSET {$start}");
+            $statement=$this->connection->prepare(
+                "SELECT * FROM surveys WHERE state = 1 
+                          AND start_date <= now() AND expiration_date >= now() 
+                          ORDER BY id DESC LIMIT {$limit} OFFSET {$start}");
             $statement->execute();
             $res = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
